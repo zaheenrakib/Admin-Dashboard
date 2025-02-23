@@ -21,7 +21,7 @@ import useUtilsFunction from "@/hooks/useUtilsFunction";
 
 const CategoryDrawer = ({ id, data }) => {
   const { t } = useTranslation();
-
+  console.log(data)
   const {
     checked,
     register,
@@ -69,7 +69,7 @@ const CategoryDrawer = ({ id, data }) => {
         title: showingTranslateValue(category.name),
         key: category._id,
         children:
-          category.children.length > 0 && renderCategories(category.children),
+          category?.children?.length > 0 && renderCategories(category.children),
       });
     }
 

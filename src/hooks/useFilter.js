@@ -55,7 +55,7 @@ const couponSchema = {
     discountType: { type: "object" },
     status: { type: "string" },
   },
-  required: ["title", "couponCode", "endTime", "status"],
+  required: ["couponCode", "endTime", "status"],
 };
 const customerSchema = {
   type: "object",
@@ -336,7 +336,7 @@ const useFilter = (data) => {
   };
   const handleSubmitCoupon = (e) => {
     e.preventDefault();
-    setSearchCoupon(couponRef.current.value);
+    // setSearchCoupon(couponRef.current.value);
   };
   const handleSubmitOrder = (e) => {
     e.preventDefault();

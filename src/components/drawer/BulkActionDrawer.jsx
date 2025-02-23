@@ -70,9 +70,9 @@ const BulkActionDrawer = ({
     for (let category of categories) {
       myCategories.push({
         title: showingTranslateValue(category?.name),
-        key: category._id,
+        key: category?.id,
         children:
-          category.children.length > 0 && renderCategories(category.children),
+          category?.children?.length > 0 && renderCategories(category?.children),
       });
     }
 
@@ -183,7 +183,7 @@ const BulkActionDrawer = ({
                           handleProcess={setPublished}
                           processOption={published}
                         />
-                        <Error errorName={errors.status} />
+                        <Error errorName={errors?.status} />
                       </div>
                     </div>
 
