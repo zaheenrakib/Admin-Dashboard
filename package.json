@@ -85,6 +85,7 @@
     "react-error-overlay": "6.0.9"
   },
   "scripts": {
+    "start": "vite preview",
     "dev": "vite --force --port 4100 --host",
     "build": "vite build",
     "preview": "vite preview",
