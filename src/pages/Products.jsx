@@ -66,7 +66,7 @@ const Products = () => {
     })
   );
 
-  console.log("product page", data?.products?.rows);
+  console.log("product page", data?.rows);
 
   // react hooks
   const [isCheckAll, setIsCheckAll] = useState(false);
@@ -267,7 +267,7 @@ const Products = () => {
             <ProductTable
               lang={lang}
               isCheck={isCheck}
-              products={data?.products?.rows}
+              products={data?.rows}
               setIsCheck={setIsCheck}
             />
           </Table>

@@ -8,7 +8,6 @@ import {
   Textarea,
   Table,
 } from "@windmill/react-ui";
-import Multiselect from "multiselect-react-dropdown";
 import React from "react";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { MultiSelect } from "react-multi-select-component";
@@ -19,8 +18,6 @@ import { useTranslation } from "react-i18next";
 import { FiX } from "react-icons/fi";
 
 //internal import
-
-import Title from "@/components/form/others/Title";
 import Error from "@/components/form/others/Error";
 import InputArea from "@/components/form/input/InputArea";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
@@ -28,15 +25,12 @@ import LabelArea from "@/components/form/selectOption/LabelArea";
 import DrawerButton from "@/components/form/button/DrawerButton";
 import InputValue from "@/components/form/input/InputValue";
 import useProductSubmit from "@/hooks/useProductSubmit";
-import ActiveButton from "@/components/form/button/ActiveButton";
 import InputValueFive from "@/components/form/input/InputValueFive";
 import Uploader from "@/components/image-uploader/Uploader";
-import ParentCategory from "@/components/category/ParentCategory";
 import UploaderThree from "@/components/image-uploader/UploaderThree";
 import AttributeOptionTwo from "@/components/attribute/AttributeOptionTwo";
 import AttributeListTable from "@/components/attribute/AttributeListTable";
-import SwitchToggleForCombination from "@/components/form/switch/SwitchToggleForCombination";
-
+import useGetDatas from "@/hooks/useGetDatas";
 //internal import
 
 const ProductDrawer = ({ id }) => {
@@ -63,23 +57,14 @@ const ProductDrawer = ({ id }) => {
     attributes,
     attTitle,
     handleAddAtt,
-    // productId,
     onCloseModal,
     isBulkUpdate,
-    globalSetting,
     isSubmitting,
     tapValue,
     setTapValue,
-    resetRefTwo,
     handleSkuBarcode,
     handleProductTap,
-    selectedCategory,
-    setSelectedCategory,
-    setDefaultCategory,
-    defaultCategory,
     handleProductSlug,
-    handleSelectLanguage,
-    handleIsCombination,
     handleEditVariant,
     handleRemoveVariant,
     handleClearVariant,
@@ -91,6 +76,17 @@ const ProductDrawer = ({ id }) => {
 
   const { currency, showingTranslateValue } = useUtilsFunction();
 
+  const [category, isLoading] = useGetDatas("/category", "category");
+  // const [subcategory] = useGetDatas("/")
+  console.log(category);
+
+  if (isLoading) {
+    return (
+      <div>
+        <h1>Loading............</h1>
+      </div>
+    );
+  }
   return (
     <>
       <Modal
@@ -112,95 +108,40 @@ const ProductDrawer = ({ id }) => {
         </div>
       </Modal>
 
-      <div className="w-full relative p-6 border-b border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
-        {id ? (
-          <Title
-            register={register}
-            handleSelectLanguage={handleSelectLanguage}
-            title={t("UpdateProduct")}
-            description={t("UpdateProductDescription")}
-          />
-        ) : (
-          <Title
-            register={register}
-            handleSelectLanguage={handleSelectLanguage}
-            title={t("DrawerAddProduct")}
-            description={t("AddProductDescription")}
-          />
-        )}
-      </div>
-
-      <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-700">
-        <SwitchToggleForCombination
-          product
-          handleProcess={handleIsCombination}
-          processOption={isCombination}
-        />
-
-        <ul className="flex flex-wrap -mb-px">
-          <li className="mr-2">
-            <ActiveButton
-              tapValue={tapValue}
-              activeValue="Basic Info"
-              handleProductTap={handleProductTap}
-            />
-          </li>
-
-          {isCombination && (
-            <li className="mr-2">
-              <ActiveButton
-                tapValue={tapValue}
-                activeValue="Combination"
-                handleProductTap={handleProductTap}
-              />
-            </li>
-          )}
-        </ul>
+      <div className="flex justify-center items-center">
+        <h1 className="text-4xl mt-5">Add Product</h1>
       </div>
 
       <Scrollbars className="track-horizontal thumb-horizontal w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-gray-700 dark:text-gray-200">
         <form onSubmit={handleSubmit(onSubmit)} className="block" id="block">
           {tapValue === "Basic Info" && (
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductID")} />
-                <div className="col-span-8 sm:col-span-4">{productId}</div>
-              </div> */}
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Category")} />
                 <div className="col-span-8 sm:col-span-4">
-                  {/* <MultiSelect 
-                  options={selectedCategory}
-                  placeholder={"Select Category"}
-                  /> */}
-                  <ParentCategory
-                    lang={language}
-                    selectedCategory={selectedCategory}
-                    setSelectedCategory={setSelectedCategory}
-                    setDefaultCategory={setDefaultCategory}
-                  />
+                  {isLoading ? (
+                    <p>Loading categories...</p>
+                  ) : (
+                    <select
+                      {...register("category", {
+                        required: "Category is required!",
+                      })}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="">Select a Category</option>
+                      {category.map((cat) => (
+                        <option key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </div>
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Sub Category")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Multiselect
-                    displayValue="name"
-                    isObject={true}
-                    singleSelect={true}
-                    ref={resetRefTwo}
-                    hidePlaceholder={true}
-                    onKeyPressFn={function noRefCheck() {}}
-                    onRemove={function noRefCheck() {}}
-                    onSearch={function noRefCheck() {}}
-                    onSelect={(v) => setDefaultCategory(v)}
-                    selectedValues={defaultCategory}
-                    options={selectedCategory}
-                    placeholder={"Default Category"}
-                  ></Multiselect>
-                </div>
+                <div className="col-span-8 sm:col-span-4"></div>
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
@@ -324,24 +265,6 @@ const ProductDrawer = ({ id }) => {
                   <Error errorName={errors.title} />
                 </div>
               </div>
-              
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Product Quantity")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                    {...register(`productQuantity`, {
-                      required: "Stock is required!",
-                    })}
-                    name="productQuantity"
-                    type="text"
-                    placeholder={t("Product Quantity")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
-                  />
-                  <Error errorName={errors.title} />
-                </div>
-              </div> */}
-
-
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("ProductTag")} />
@@ -358,7 +281,6 @@ const ProductDrawer = ({ id }) => {
                 <LabelArea label="Purchase Price" />
                 <div className="col-span-8 sm:col-span-4">
                   <InputValue
-                    disabled={isCombination}
                     register={register}
                     maxValue={2000}
                     minValue={1}
@@ -379,7 +301,6 @@ const ProductDrawer = ({ id }) => {
                 <LabelArea label={t("Sale Price")} />
                 <div className="col-span-8 sm:col-span-4">
                   <InputValue
-                    disabled={isCombination}
                     product
                     register={register}
                     minValue={0}
@@ -400,7 +321,6 @@ const ProductDrawer = ({ id }) => {
                 <div className="col-span-8 sm:col-span-4">
                   <InputValueFive
                     required={true}
-                    disabled={isCombination}
                     register={register}
                     minValue={0}
                     defaultValue={0}
@@ -412,7 +332,6 @@ const ProductDrawer = ({ id }) => {
                   <Error errorName={errors.stock} />
                 </div>
               </div>
-
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("ProductDescription")} />
@@ -430,7 +349,7 @@ const ProductDrawer = ({ id }) => {
                   <Error errorName={errors.description} />
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Return Policy")} />
                 <div className="col-span-8 sm:col-span-4">
@@ -543,47 +462,6 @@ const ProductDrawer = ({ id }) => {
             <DrawerButton id={id} title="Product" isSubmitting={isSubmitting} />
           )}
         </form>
-
-        {tapValue === "Combination" &&
-          isCombination &&
-          variantTitle.length > 0 && (
-            <div className="px-6 overflow-x-auto">
-              {/* {variants?.length >= 0 && ( */}
-              {isCombination && (
-                <TableContainer className="md:mb-32 mb-40 rounded-b-lg">
-                  <Table>
-                    <TableHeader>
-                      <tr>
-                        <TableCell>{t("Image")}</TableCell>
-                        <TableCell>{t("Combination")}</TableCell>
-                        <TableCell>{t("Sku")}</TableCell>
-                        <TableCell>{t("Barcode")}</TableCell>
-                        <TableCell>{t("Price")}</TableCell>
-                        <TableCell>{t("SalePrice")}</TableCell>
-                        <TableCell>{t("QuantityTbl")}</TableCell>
-                        <TableCell className="text-right">
-                          {t("Action")}
-                        </TableCell>
-                      </tr>
-                    </TableHeader>
-
-                    <AttributeListTable
-                      lang={language}
-                      variants={variants}
-                      setTapValue={setTapValue}
-                      variantTitle={variantTitle}
-                      isBulkUpdate={isBulkUpdate}
-                      handleSkuBarcode={handleSkuBarcode}
-                      handleEditVariant={handleEditVariant}
-                      handleRemoveVariant={handleRemoveVariant}
-                      handleQuantityPrice={handleQuantityPrice}
-                      handleSelectInlineImage={handleSelectInlineImage}
-                    />
-                  </Table>
-                </TableContainer>
-              )}
-            </div>
-          )}
       </Scrollbars>
     </>
   );

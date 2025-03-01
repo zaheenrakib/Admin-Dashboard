@@ -274,9 +274,9 @@ const useProductSubmit = (id) => {
       setTotalStock(0);
       setSelectedCategory([]);
       setDefaultCategory([]);
-      if (location.pathname === "/products") {
-        resetRefTwo?.current?.resetSelectedValues();
-      }
+      // if (location.pathname === "/products") {
+      //   resetRefTwo?.current?.resetSelectedValues();
+      // }
 
       clearErrors("sku");
       clearErrors("title");
