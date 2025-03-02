@@ -18,10 +18,12 @@ import useCategorySubmit from "@/hooks/useCategorySubmit";
 import CategoryServices from "@/services/CategoryServices";
 import DrawerButton from "@/components/form/button/DrawerButton";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
+import useGetDatas from "@/hooks/useGetDatas";
 
 const CategoryDrawer = ({ id, data }) => {
   const { t } = useTranslation();
-  console.log(data)
+  console.log(data);
+  const [category, isLoading] = useGetDatas("/category", "category");
   const {
     checked,
     register,
@@ -166,8 +168,31 @@ const CategoryDrawer = ({ id, data }) => {
                 <Error errorName={errors.description} />
               </div>
             </div>
-
+            {/* category section */}
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <LabelArea label={t("ParentCategory")} />
+              <div className="col-span-8 sm:col-span-4">
+                {isLoading ? (
+                  <p>Loading categories...</p>
+                ) : (
+                  <select
+                    {...register("categories", {
+                      required: "Category is required!",
+                    })}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="">Select a Category</option>
+                    {category.map((cat) => (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
+            </div>
+
+            {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
               <LabelArea label={t("ParentCategory")} />
               <div className="col-span-8 sm:col-span-4 relative">
                 <Input
@@ -193,7 +218,7 @@ const CategoryDrawer = ({ id, data }) => {
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
               <LabelArea label={t("CategoryIcon")} />

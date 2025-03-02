@@ -47,7 +47,7 @@ const Notifications = () => {
       window.location.reload(false);
     } catch (err) {
       // console.log(err);
-      notifyError(err?.response?.data?.message || err?.message);
+      // notifyError(err?.response?.data?.message || err?.message);
     }
   };
 
@@ -61,7 +61,7 @@ const Notifications = () => {
       setTotalDoc(getAllRes?.totalDoc);
     } catch (err) {
       // console.log(err);
-      notifyError(err?.response?.data?.message || err?.message);
+      // notifyError(err?.response?.data?.message || err?.message);
     }
   };
 
@@ -76,7 +76,7 @@ const Notifications = () => {
       setPage((pre) => pre + 1);
     } catch (err) {
       // console.log(err);
-      notifyError(err?.response?.data?.message || err?.message);
+      // notifyError(err?.response?.data?.message || err?.message);
     }
   };
 
@@ -97,7 +97,7 @@ const Notifications = () => {
       setTotalUnreadDoc(getAllRes?.totalUnreadDoc);
     } catch (err) {
       // notifyError("Server Side Error");
-      notifyError(err?.response?.data?.message || err?.message);
+      // notifyError(err?.response?.data?.message || err?.message);
       // console.log(err);
     }
   };
@@ -118,7 +118,7 @@ const Notifications = () => {
       setTotalUnreadDoc(getAllRes?.totalUnreadDoc);
     } catch (err) {
       // notifyError("Server Side Error");
-      notifyError(err?.response?.data?.message || err?.message);
+      // notifyError(err?.response?.data?.message || err?.message);
       // console.log(err);
     }
   };

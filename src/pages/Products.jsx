@@ -66,8 +66,6 @@ const Products = () => {
     })
   );
 
-  console.log("product page", data?.rows);
-
   // react hooks
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
@@ -251,8 +249,8 @@ const Products = () => {
                     handleClick={handleSelectAll}
                   />
                 </TableCell>
+                <TableCell>{t("Image")}</TableCell>
                 <TableCell>{t("ProductNameTbl")}</TableCell>
-                <TableCell>{t("CategoryTbl")}</TableCell>
                 <TableCell>{t("PriceTbl")}</TableCell>
                 <TableCell>Sale Price</TableCell>
                 <TableCell>{t("StockTbl")}</TableCell>

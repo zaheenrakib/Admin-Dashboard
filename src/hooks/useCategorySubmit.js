@@ -62,7 +62,7 @@ const useCategorySubmit = (id, data) => {
         name:name,
         slug: name?.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"),
         description:description || "",
-        parentId: checked ? checked : undefined,
+        parentId: categories,
         // parentName: selectCategoryName ? selectCategoryName : "Home",
         icon: imageUrl,
         status: published ? "show" : "hide",

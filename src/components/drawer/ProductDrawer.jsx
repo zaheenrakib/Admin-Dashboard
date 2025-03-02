@@ -153,7 +153,7 @@ const ProductDrawer = ({ id }) => {
                       className="w-full p-2 border border-gray-300 rounded-md"
                     >
                       <option value="">Select a Sub Category</option>
-                      {subcategory.map((cat) => (
+                      {subcategory?.map((cat) => (
                         <option key={cat.id} value={cat.id}>
                           {cat.name}
                         </option>

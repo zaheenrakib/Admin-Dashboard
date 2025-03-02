@@ -77,47 +77,12 @@ const CategoryTable = ({
               )}
             </TableCell>
 
-            <TableCell className="font-medium text-sm ">
-              {category?.children?.length > 0 ? (
-                <Link
-                  to={`/categories/${category?.id}`}
-                  className="text-blue-700"
-                >
-                  {showingTranslateValue(category?.name)}
-
-                  <>
-                    {showChild && (
-                      <>
-                        {" "}
-                        <div className="pl-2 ">
-                          {category?.children?.map((child) => (
-                            <div key={child.id}>
-                              <Link
-                                to={`/categories/${child?.id}`}
-                                className="text-blue-700"
-                              >
-                                <div className="flex text-xs items-center  text-blue-800">
-                                  <span className=" text-xs text-gray-500 pr-1">
-                                    <IoRemoveSharp />
-                                  </span>
-                                  <span className="text-gray-500">
-                                    {showingTranslateValue(child.name)}
-                                  </span>
-                                </div>
-                              </Link>
-                            </div>
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </>
-                </Link>
-              ) : (
-                <span>{showingTranslateValue(category?.name)}</span>
-              )}
+           
+            <TableCell className="text-sm">
+              {category?.name}
             </TableCell>
             <TableCell className="text-sm">
-              {showingTranslateValue(category?.description)}
+              {category?.description}
             </TableCell>
 
             <TableCell className="text-center">

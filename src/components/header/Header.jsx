@@ -78,7 +78,7 @@ const Header = () => {
       setTotalUnreadDoc(getAllRes?.totalUnreadDoc);
       window.location.reload(false);
     } catch (err) {
-      notifyError(err?.response?.data?.message || err?.message);
+      // notifyError(err?.response?.data?.message || err?.message);
     }
   };
 
@@ -91,7 +91,7 @@ const Header = () => {
       setTotalUnreadDoc(getAllRes?.totalUnreadDoc);
       setTotalDoc(getAllRes?.totalDoc);
     } catch (err) {
-      notifyError(err?.response?.data?.message || err?.message);
+      // notifyError(err?.response?.data?.message || err?.message);
     }
   };
 
@@ -106,7 +106,7 @@ const Header = () => {
       setUpdated(false);
     } catch (err) {
       setUpdated(false);
-      notifyError(err?.response?.data?.message || err?.message);
+      // notifyError(err?.response?.data?.message || err?.message);
     }
   };
 

@@ -79,7 +79,7 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
                       product?.title.length > 30 ? "wrap-long-title" : ""
                     }`}
                   >
-                    {product?.productName}
+                    
                   </h2>
                 </div>
               </div>
@@ -87,7 +87,7 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
 
             <TableCell>
               <span className="text-sm">
-                {product?.slug}
+              {product?.productName}
               </span>
             </TableCell>
 
