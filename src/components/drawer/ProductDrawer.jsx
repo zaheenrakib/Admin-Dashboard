@@ -77,8 +77,9 @@ const ProductDrawer = ({ id }) => {
   const { currency, showingTranslateValue } = useUtilsFunction();
 
   const [category, isLoading] = useGetDatas("/category", "category");
-  // const [subcategory] = useGetDatas("/")
+  const [subcategory] = useGetDatas("/subcategory" , "subCategory")
   console.log(category);
+  console.log(subcategory)
 
   if (isLoading) {
     return (
@@ -123,7 +124,7 @@ const ProductDrawer = ({ id }) => {
                     <p>Loading categories...</p>
                   ) : (
                     <select
-                      {...register("category", {
+                      {...register("categories", {
                         required: "Category is required!",
                       })}
                       className="w-full p-2 border border-gray-300 rounded-md"
@@ -141,7 +142,25 @@ const ProductDrawer = ({ id }) => {
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Sub Category")} />
-                <div className="col-span-8 sm:col-span-4"></div>
+                <div className="col-span-8 sm:col-span-4">
+                {isLoading ? (
+                    <p>Loading categories...</p>
+                  ) : (
+                    <select
+                      {...register("subCategory", {
+                        required: "Category is required!",
+                      })}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="">Select a Sub Category</option>
+                      {subcategory.map((cat) => (
+                        <option key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </div>
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">

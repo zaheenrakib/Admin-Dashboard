@@ -37,34 +37,36 @@ const useCategorySubmit = (id, data) => {
   const onSubmit = async ({ name, description }) => {
     try {
       setIsSubmitting(true);
-      const nameTranslates = await handlerTextTranslateHandler(
-        name,
-        language,
-        resData?.name
-      );
-      // console.log("nameTranslates", nameTranslates);
-      // return;
-      const descriptionTranslates = await handlerTextTranslateHandler(
-        description,
-        language,
-        resData?.description
-      );
+      // const nameTranslates = await handlerTextTranslateHandler(
+      //   name,
+      //   language,
+      //   resData?.name
+      // );
+      // // console.log("nameTranslates", nameTranslates);
+      // // return;
+      // const descriptionTranslates = await handlerTextTranslateHandler(
+      //   description,
+      //   language,
+      //   resData?.description
+      // );
 
       const categoryData = {
-        name: {
-          ...nameTranslates,
-          [language]: name,
-        },
-        description: {
-          ...descriptionTranslates,
-          [language]: description ? description : "",
-        },
+        // name: {
+        //   ...nameTranslates,
+        //   [language]: name,
+        // },
+        // description: {
+        //   ...descriptionTranslates,
+        //   [language]: description ? description : "",
+        // },
+        name:name,
+        slug: name?.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"),
+        description:description || "",
         parentId: checked ? checked : undefined,
-        parentName: selectCategoryName ? selectCategoryName : "Home",
-
+        // parentName: selectCategoryName ? selectCategoryName : "Home",
         icon: imageUrl,
         status: published ? "show" : "hide",
-        lang: language,
+        // lang: language,
       };
 
       // console.log("category submit", categoryData);

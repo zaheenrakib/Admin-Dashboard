@@ -52,7 +52,7 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
             <TableCell>
               <CheckBox
                 type="checkbox"
-                name={product?.title?.en}
+                name={product?.productName}
                 id={product?.id}
                 handleClick={handleClick}
                 isChecked={isCheck?.includes(product?.id)}
@@ -79,7 +79,7 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
                       product?.title.length > 30 ? "wrap-long-title" : ""
                     }`}
                   >
-                    {showingTranslateValue(product?.title)?.substring(0, 28)}
+                    {product?.productName}
                   </h2>
                 </div>
               </div>
@@ -87,25 +87,21 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
 
             <TableCell>
               <span className="text-sm">
-                {showingTranslateValue(product?.category?.name)}
+                {product?.slug}
               </span>
             </TableCell>
 
             <TableCell>
               <span className="text-sm font-semibold">
                 {currency}
-                {product?.isCombination
-                  ? getNumberTwo(product?.variants[0]?.originalPrice)
-                  : getNumberTwo(product?.prices?.originalPrice)}
+                {product?.purchasePrice}
               </span>
             </TableCell>
 
             <TableCell>
               <span className="text-sm font-semibold">
                 {currency}
-                {product?.isCombination
-                  ? getNumberTwo(product?.variants[0]?.price)
-                  : getNumberTwo(product?.prices?.price)}
+                {product?.salesPrice}
               </span>
             </TableCell>
 

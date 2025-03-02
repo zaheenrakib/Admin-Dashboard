@@ -92,10 +92,10 @@ const useProductSubmit = (id) => {
           "Sale Price must be less then or equal of product price!"
         );
       }
-      if (!defaultCategory[0]) {
-        setIsSubmitting(false);
-        return notifyError("Default Category is required!");
-      }
+      // if (!defaultCategory[0]) {
+      //   setIsSubmitting(false);
+      //   return notifyError("Default Category is required!");
+      // }
 
       const updatedVariants = variants.map((v, i) => {
         const newObj = {
@@ -134,20 +134,14 @@ const useProductSubmit = (id) => {
         productCode: data?.productCode,
         sku: data.sku || "",
         barcode: data.barcode || "",
-        title: {
-          ...titleTranslates,
-          [language]: data.title,
-        },
+        title: data?.title,
         image: imageUrl,
         stock: data?.stock || "",
         purchasePrice:data?.purchasePrice || "",
         salesPrice:data?.salesPrice || "",
         productQuantity:data?.productQuantity ||"",
         tag: JSON.stringify(tag),
-        description: {
-          ...descriptionTranslates,
-          [language]: data?.description || "",
-        },
+        description:data?.description || "",
         returnPolicy:data?.returnPolicy || "",
         // categories: selectedCategory.map((item) => item._id),
         // category: defaultCategory[0]._id,
