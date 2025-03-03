@@ -309,8 +309,6 @@ const ProductDrawer = ({ id }) => {
                     placeholder="OriginalPrice"
                     defaultValue={0.0}
                     required={true}
-                    product
-                    currency={currency}
                   />
                   <Error errorName={errors.originalPrice} />
                 </div>
@@ -320,7 +318,6 @@ const ProductDrawer = ({ id }) => {
                 <LabelArea label={t("Sale Price")} />
                 <div className="col-span-8 sm:col-span-4">
                   <InputValue
-                    product
                     register={register}
                     minValue={0}
                     defaultValue={0.0}
@@ -329,7 +326,6 @@ const ProductDrawer = ({ id }) => {
                     name="salesPrice"
                     type="number"
                     placeholder="Sale price"
-                    currency={currency}
                   />
                   <Error errorName={errors.price} />
                 </div>

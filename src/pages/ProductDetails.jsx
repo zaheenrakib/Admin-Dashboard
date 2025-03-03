@@ -41,18 +41,18 @@ const ProductDetails = () => {
     useFilter(data?.variants);
   // console.log('data',data)
 
-  useEffect(() => {
-    if (!loading) {
-      const res = Object.keys(Object.assign({}, ...data?.variants));
+  // useEffect(() => {
+  //   if (!loading) {
+  //     const res = Object.keys(Object.assign({}, ...data?.variants));
 
-      const varTitle = attribue?.filter((att) =>
-        // res.includes(att.title.replace(/[^a-zA-Z0-9]/g, ''))
-        res.includes(att._id)
-      );
+  //     const varTitle = attribue?.filter((att) =>
+  //       // res.includes(att.title.replace(/[^a-zA-Z0-9]/g, ''))
+  //       res.includes(att._id)
+  //     );
 
-      setVariantTitle(varTitle);
-    }
-  }, [attribue, data?.variants, loading, lang]);
+  //     setVariantTitle(varTitle);
+  //   }
+  // }, [attribue, data?.variants, loading, lang]);
 
   console.log("product", data);
 
@@ -107,14 +107,20 @@ const ProductDetails = () => {
               </div>
               <div className="font-serif product-price font-bold dark:text-gray-400">
                 <span className="inline-block text-2xl">
-                  {currency}
+                  {/* {currency}
                   {getNumberTwo(data?.prices?.price)}
                   {data?.prices?.discount >= 1 && (
                     <del className="text-gray-400 dark:text-gray-500 text-lg pl-2">
                       {currency}
                       {getNumberTwo(data?.prices?.originalPrice)}
                     </del>
-                  )}
+                  )} */}
+                  <h1>Purchase Price: {data.purchasePrice} </h1>
+                </span>
+              </div>
+              <div className="font-serif product-price font-bold dark:text-gray-400">
+                <span className="inline-block text-2xl">
+                  <h1>Sale Price: {data.salesPrice} </h1>
                 </span>
               </div>
               <div className="mb-3">

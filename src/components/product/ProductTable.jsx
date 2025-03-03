@@ -93,14 +93,14 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
 
             <TableCell>
               <span className="text-sm font-semibold">
-                {currency}
+            
                 {product?.purchasePrice}
               </span>
             </TableCell>
 
             <TableCell>
               <span className="text-sm font-semibold">
-                {currency}
+                
                 {product?.salesPrice}
               </span>
             </TableCell>
@@ -117,7 +117,7 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
             </TableCell>
             <TableCell>
               <Link
-                to={`/product/${product._id}`}
+                to={`/product/${product?.id}`}
                 className="flex justify-center text-gray-400 hover:text-emerald-600"
               >
                 <Tooltip
@@ -129,7 +129,7 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
               </Link>
             </TableCell>
             <TableCell className="text-center">
-              <ShowHideButton id={product._id} status={product.status} />
+              <ShowHideButton id={product?.id} status={product.status} />
               {/* {product.status} */}
             </TableCell>
             <TableCell>

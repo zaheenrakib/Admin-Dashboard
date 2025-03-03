@@ -16,7 +16,7 @@ const ProductServices = {
   },
 
   getProductById: async (id) => {
-    return requests.post(`/products/${id}`);
+    return requests.get(`/products/${id}`);
   },
   addProduct: async (body) => {
     return requests.post("/products/add", body);
