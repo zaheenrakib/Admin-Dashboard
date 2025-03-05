@@ -54,38 +54,37 @@ const useAttributeSubmit = (id) => {
   const onSubmit = async ({ title, name, option }) => {
     try {
       setIsSubmitting(true);
-      if (!id) {
-        if (variants.length === 0) {
-          notifyError("Minimum one value is required for add attribute!");
-          return;
-        }
-      }
+      // if (!id) {
+      //   if (variants.length === 0) {
+      //     notifyError("Minimum one value is required for add attribute!");
+      //     return;
+      //   }
+      // }
 
-      const titleTranslates = await handlerTextTranslateHandler(
-        title,
-        language,
-        resData?.title
-      );
-      const nameTranslates = await handlerTextTranslateHandler(
-        name,
-        language,
-        resData?.name
-      );
+      // const titleTranslates = await handlerTextTranslateHandler(
+      //   title,
+      //   language,
+      //   resData?.title
+      // );
+      // const nameTranslates = await handlerTextTranslateHandler(
+      //   name,
+      //   language,
+      //   resData?.name
+      // );
 
       const attributeData = {
-        title: {
-          ...titleTranslates,
-          [language]: title,
-        },
-        name: {
-          ...nameTranslates,
-          [language]: name,
-        },
-        variants: variantArrayOfObject,
-        option: option,
-        type: "attribute",
-        lang: language,
+        name: resData?.name || "" ,
+        placeholder: resData?.placeholder || "",
+        field_type: resData?.field_type || "",
+        field_type_data:resData?.field_type_data || "",
+        is_required:resData?.is_required || "",
+        css_class:resData?.css_class || "",
+        extra_attr:resData?.extra_attr || "",
+        default_value:resData?.default_value || "",
+        status:resData?.status || 0
       };
+
+      const res = await AttributeServices.addAttribute(attributeData);
 
       // console.log("attributeData", attributeData);
 

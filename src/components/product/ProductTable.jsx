@@ -25,7 +25,7 @@ import useUtilsFunction from "@/hooks/useUtilsFunction";
 const ProductTable = ({ products, isCheck, setIsCheck }) => {
   const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
   const { currency, showingTranslateValue, getNumberTwo } = useUtilsFunction();
-  console.log(products)
+  console.log(products);
   const handleClick = (e) => {
     const { id, checked } = e.target;
     // console.log("id", id, checked);
@@ -49,7 +49,7 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
       <TableBody>
         {products?.map((product, i) => (
           <TableRow key={i + 1}>
-            <TableCell>
+            {/* <TableCell>
               <CheckBox
                 type="checkbox"
                 name={product?.productName}
@@ -57,6 +57,10 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
                 handleClick={handleClick}
                 isChecked={isCheck?.includes(product?.id)}
               />
+            </TableCell> */}
+
+            <TableCell className="font-semibold uppercase text-xs">
+              {product?.id}
             </TableCell>
 
             <TableCell>
@@ -78,29 +82,23 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
                     className={`text-sm font-medium ${
                       product?.title.length > 30 ? "wrap-long-title" : ""
                     }`}
-                  >
-                    
-                  </h2>
+                  ></h2>
                 </div>
               </div>
             </TableCell>
 
             <TableCell>
-              <span className="text-sm">
-              {product?.productName}
-              </span>
+              <span className="text-sm">{product?.productName}</span>
             </TableCell>
 
             <TableCell>
               <span className="text-sm font-semibold">
-            
                 {product?.purchasePrice}
               </span>
             </TableCell>
 
             <TableCell>
               <span className="text-sm font-semibold">
-                
                 {product?.salesPrice}
               </span>
             </TableCell>

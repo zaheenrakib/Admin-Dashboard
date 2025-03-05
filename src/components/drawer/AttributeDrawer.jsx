@@ -29,7 +29,7 @@ const AttributeDrawer = ({ id }) => {
 
   return (
     <>
-      <div className="w-full relative p-6 border-b border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
+      {/* <div className="w-full relative p-6 border-b border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
         {id ? (
           <Title
             register={register}
@@ -45,88 +45,151 @@ const AttributeDrawer = ({ id }) => {
             description={t("AddAttributeDesc")}
           />
         )}
-      </div>
+      </div> */}
 
-      <Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-gray-700 dark:text-gray-200">
+      <div>
+        <h1 className="text-4xl text-center mt-4">Add Attributes</h1>
+      </div>
+     
+
+      <Scrollbars className="w-full md:w-12/12 lg:w-8/12 xl:w-8/12 relative dark:bg-gray-700 dark:text-gray-200">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="px-6 pt-8 flex-grow scrollbar-hide w-full max-h-full">
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={t("DrawerAttributeTitle")} />
+              <LabelArea label={t("Attribute Name")} />
               <div className="col-span-8 sm:col-span-4">
-                {/* <SelectAttribute
-                  register={register}
-                  label="Attribute Title"
-                  name="title"
-                /> */}
                 <InputArea
                   required={true}
                   register={register}
-                  label="Attribute Title"
-                  name="title"
+                  name="name"
                   type="text"
-                  placeholder="Color or Size or Dimension or Material or Fabric"
+                  placeholder="Please Enter Name"
                 />
-                <Error errorName={errors.title} />
               </div>
             </div>
 
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6 relative">
-              <LabelArea label={t("DisplayName")} />
+              <LabelArea label={t("Placeholder")} />
               <div className="col-span-8 sm:col-span-4">
                 <InputArea
                   required={true}
                   register={register}
-                  label="Display Name"
-                  name="name"
+                  name="placeholder"
                   type="text"
-                  placeholder="Display Name"
+                  placeholder="Enter Placeholder"
                 />
-                <Error errorName={errors.name} />
               </div>
             </div>
 
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 relative">
-              <LabelArea label={t("DrawerOptions")} />
+              <LabelArea label={t("Field Type")} />
               <div className="col-span-8 sm:col-span-4 ">
                 <Select
-                  name="option"
-                  {...register(`option`, {
-                    required: `Option is required!`,
+                  name="field_type"
+                  {...register(`field_type`, {
+                    required: `field_type is required!`,
                   })}
                 >
                   <option value="" defaultValue hidden>
                     {t("DrawerSelecttype")}
                   </option>
-                  <option value="Dropdown">{t("Dropdown")}</option>
-                  <option value="Radio">{t("Radio")}</option>
-                  {/* <option value="Checkbox">Checkbox</option> */}
+                  <option value="text">{t("Text")}</option>
+                  <option value="checkbox">{t("Checkbox")}</option>
+                  <option value="number">{t("Number")}</option>
+                  <option value="radio">{t("Radio")}</option>
+                  <option value="File">{t("File")}</option>
+                  <option value="select">{t("Select")}</option>
+                  <option value="textarea">{t("textarea")}</option>
                 </Select>
-                <Error errorName={errors.option} />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6 relative mt-5">
+              <LabelArea label={t("Field Type Data")} />
+              <div className="col-span-8 sm:col-span-4">
+                <InputArea
+                  register={register}
+                  name="field_type_data"
+                  type="text"
+                  placeholder="Enter Field Type Data"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 relative">
+              <LabelArea label={t("Is Required")} />
+              <div className="col-span-8 sm:col-span-4 ">
+                <Select
+                  name="is_required"
+                  {...register(`is_required`, {
+                    required: `is_required is required!`,
+                  })}
+                >
+                  <option value="" defaultValue hidden>
+                    {t("DrawerSelecttype")}
+                  </option>
+                  <option value="yes">{t("Yes")}</option>
+                  <option value="no">{t("No")}</option>
+                </Select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6 relative mt-5">
+              <LabelArea label={t("CSS Class")} />
+              <div className="col-span-8 sm:col-span-4">
+                <InputArea
+                  register={register}
+                  name="css_class"
+                  type="text"
+                  placeholder="Enter CSS Class"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6 relative mt-5">
+              <LabelArea label={t("Extra Attr")} />
+              <div className="col-span-8 sm:col-span-4">
+                <InputArea
+                  register={register}
+                  name="extra_attr"
+                  type="text"
+                  placeholder="Enter Extra Attribute"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6 relative mt-5">
+              <LabelArea label={t("Default Value")} />
+              <div className="col-span-8 sm:col-span-4">
+                <InputArea
+                  register={register}
+                  name="default_value"
+                  type="text"
+                  placeholder="Enter Default Value"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 relative mb-32">
+              <LabelArea label={t("Status")} />
+              <div className="col-span-8 sm:col-span-4 ">
+                <Select
+                  name="status"
+                  {...register(`status`, {
+                    required: `Status is required!`,
+                  })}
+                >
+                  <option value="" defaultValue hidden>
+                    {t("DrawerSelecttype")}
+                  </option>
+                  <option value="1">{t("Active")}</option>
+                  <option value="2">{t("InActive")}</option>
+                </Select>
               </div>
             </div>
           </div>
-
-          <DrawerButton id={id} title="Attribute" isSubmitting={isSubmitting} />
+        <DrawerButton id={id} title="Attribute" isSubmitting={isSubmitting} />
         </form>
-        <div className="px-6 pt-8 flex-grow scrollbar-hide w-full max-h-full pb-40 ">
-          {!id && (
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6 relative">
-              <LabelArea label={t("Variants")} />
-              <div className="col-span-8 sm:col-span-4">
-                <TagInputTwo
-                  notes={variants}
-                  addNote={addVariant}
-                  removeNote={removeVariant}
-                />
-                {/* <ReactTagInput
-                    placeholder="White or S or Cotton or 40X60 or Premium...(Write then press enter to add new color)"
-                    tags={variants}
-                    onChange={(variant) => setVariants(variant)}
-                  /> */}
-              </div>
-            </div>
-          )}
-        </div>
       </Scrollbars>
     </>
   );

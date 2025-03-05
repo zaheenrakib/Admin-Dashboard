@@ -123,7 +123,7 @@ const Category = () => {
               </div>
 
               <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0">
-                <div className="w-full md:w-40 lg:w-40 xl:w-40 mr-3 mb-3 lg:mb-0">
+                {/* <div className="w-full md:w-40 lg:w-40 xl:w-40 mr-3 mb-3 lg:mb-0">
                   <Button
                     disabled={isCheck.length < 1}
                     onClick={() => handleUpdateMany(isCheck)}
@@ -148,7 +148,7 @@ const Category = () => {
 
                     {t("Delete")}
                   </Button>
-                </div>
+                </div> */}
                 <div className="w-full md:w-48 lg:w-48 xl:w-48">
                   <Button
                     onClick={toggleDrawer}
@@ -217,7 +217,7 @@ const Category = () => {
           <Table>
             <TableHeader>
               <tr>
-                <TableCell>
+                {/* <TableCell>
                   <CheckBox
                     type="checkbox"
                     name="selectAll"
@@ -225,7 +225,7 @@ const Category = () => {
                     handleClick={handleSelectAll}
                     isChecked={isCheckAll}
                   />
-                </TableCell>
+                </TableCell> */}
 
                 <TableCell>{t("catIdTbl")}</TableCell>
                 <TableCell>{t("catIconTbl")}</TableCell>

@@ -240,7 +240,7 @@ const Products = () => {
           <Table>
             <TableHeader>
               <tr>
-                <TableCell>
+                {/* <TableCell>
                   <CheckBox
                     type="checkbox"
                     name="selectAll"
@@ -248,7 +248,8 @@ const Products = () => {
                     isChecked={isCheckAll}
                     handleClick={handleSelectAll}
                   />
-                </TableCell>
+                </TableCell> */}
+                <TableCell>{t("ID")}</TableCell>
                 <TableCell>{t("Image")}</TableCell>
                 <TableCell>{t("ProductNameTbl")}</TableCell>
                 <TableCell>{t("PriceTbl")}</TableCell>

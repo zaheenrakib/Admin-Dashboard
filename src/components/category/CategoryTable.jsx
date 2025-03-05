@@ -48,7 +48,7 @@ const CategoryTable = ({
       <TableBody>
         {categories?.map((category) => (
           <TableRow key={category?.id}>
-            <TableCell>
+            {/* <TableCell>
               <CheckBox
                 type="checkbox"
                 name="category"
@@ -56,10 +56,10 @@ const CategoryTable = ({
                 handleClick={handleClick}
                 isChecked={isCheck?.includes(category?.id)}
               />
-            </TableCell>
+            </TableCell> */}
 
             <TableCell className="font-semibold uppercase text-xs">
-              {/* {category?.id?.substring(20, 24)} */}
+              {category?.id}
             </TableCell>
             <TableCell>
               {category?.icon ? (
