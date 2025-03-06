@@ -47,7 +47,7 @@ const Login = () => {
                   <InputArea
                     required={true}
                     register={register}
-                    defaultValue="admin@gmail.com"
+                    defaultValue="zaheen@g.com"
                     label="Email"
                     name="email"
                     type="email"
@@ -60,7 +60,7 @@ const Login = () => {
                   <InputArea
                     required={true}
                     register={register}
-                    defaultValue="12345678"
+                    defaultValue="123456789"
                     label="Password"
                     name="password"
                     type="password"

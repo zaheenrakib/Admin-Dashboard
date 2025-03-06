@@ -7,6 +7,7 @@ import {
   FiSlack,
   FiGlobe,
   FiTarget,
+  FiShoppingCart,
 } from "react-icons/fi";
 
 /**
@@ -50,6 +51,11 @@ const sidebar = [
     path: "/customers",
     icon: FiUsers,
     name: "Customers",
+  },
+  {
+    path: "/booking",
+    icon: FiShoppingCart,
+    name: "Booking List",
   },
   {
     path: "/orders",

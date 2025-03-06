@@ -86,7 +86,7 @@ const useAttributeSubmit = (id) => {
 
       const res = await AttributeServices.addAttribute(attributeData);
 
-      // console.log("attributeData", attributeData);
+      console.log("attributeData", attributeData);
 
       if (id) {
         const res = await AttributeServices.updateAttributes(id, attributeData);
