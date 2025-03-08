@@ -1,5 +1,6 @@
 import { TableBody, TableCell, TableRow } from "@windmill/react-ui";
 import React from "react";
+import EditDeleteButton from "../table/EditDeleteButton";
 
 const BookingTable = ({ BookingList = [], isLoading }) => {
   console.log("Booking List", BookingList);
@@ -21,10 +22,17 @@ const BookingTable = ({ BookingList = [], isLoading }) => {
           </TableCell>
 
           <TableCell className="font-semibold uppercase text-xs">
+            {booking.date}
+          </TableCell>
+
+          <TableCell className="font-semibold uppercase text-xs">
             {booking.personName}
           </TableCell>
-          
-          
+
+          <TableCell className="font-semibold uppercase text-xs">
+            {booking.phoneNumber}
+          </TableCell>
+
           <TableCell className="font-semibold uppercase text-xs">
             {booking?.email}
           </TableCell>
@@ -34,25 +42,36 @@ const BookingTable = ({ BookingList = [], isLoading }) => {
           </TableCell>
 
           <TableCell className="font-semibold uppercase text-xs">
-            {booking.phoneNumber}
-          </TableCell>
-
-          <TableCell className="font-semibold uppercase text-xs">
-            {booking.peopleNum}
+            {booking.place}
           </TableCell>
 
           <TableCell className="font-semibold uppercase text-xs">
             {booking.eventType}
           </TableCell>
 
+         
+
           <TableCell className="font-semibold uppercase text-xs">
-            {booking.place}
+            {booking.peopleNum}
           </TableCell>
+
+          
+
+         
 
           <TableCell className="font-semibold uppercase text-xs">
             {booking.address}
           </TableCell>
 
+          <TableCell className="font-semibold uppercase text-xs">
+            {booking.description}
+          </TableCell>
+
+          <TableCell>
+            <EditDeleteButton
+              id={booking?.id}
+            />
+          </TableCell>
         </TableRow>
       ))}
     </TableBody>
