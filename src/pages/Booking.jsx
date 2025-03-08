@@ -28,13 +28,13 @@ const Booking = () => {
               <tr>
                 <TableCell>{"Id"} </TableCell>
                 <TableCell> {"Name"}</TableCell>
-                <TableCell> {"FIELD"}</TableCell>
-                <TableCell>{"PLACEHOLDER"}</TableCell>
-                <TableCell>{"CSS_CLASS"}</TableCell>
-                <TableCell> {"Name"}</TableCell>
-                <TableCell> {"FIELD"}</TableCell>
-                <TableCell>{"PLACEHOLDER"}</TableCell>
-                <TableCell>{"CSS_CLASS"}</TableCell>
+                <TableCell> {"EMAIL"}</TableCell>
+                <TableCell>{"CITY"}</TableCell>
+                <TableCell>{"PHONE"}</TableCell>
+                <TableCell> {"PEPOLE"}</TableCell>
+                <TableCell> {"EVENT_TYPE"}</TableCell>
+                <TableCell>{"PLACE"}</TableCell>
+                <TableCell>{"ADDRESS"}</TableCell>
               </tr>
             </TableHeader>
             <BookingTable BookingList={data} isLoading={isLoading} />
