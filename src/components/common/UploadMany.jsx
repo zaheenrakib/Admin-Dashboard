@@ -171,6 +171,7 @@ const UploadMany = ({
             title === "Extra" ||
             title === "Coupon" ||
             title === "Customers" ||
+            title === "Booking" ||
             title === "Categories") && (
             <button
               onClick={() => {

@@ -29,17 +29,17 @@ const sidebar = [
     name: "Catalog",
     routes: [
       {
-        path: "/products",
-        name: "Products",
+        path: "/attributes",
+        name: "Attributes",
       },
       {
         path: "/categories",
         name: "Categories",
       },
       {
-        path: "/attributes",
-        name: "Attributes",
-      },
+        path: "/products",
+        name: "Products",
+      },   
       {
         path: "/coupons",
         name: "Coupons",

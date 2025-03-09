@@ -33,7 +33,7 @@ const CustomerTable = ({ customers }) => {
             <TableCell>
               <span className="font-semibold uppercase text-xs">
                 {" "}
-                {user?._id?.substring(20, 24)}
+                {user?.id}
               </span>
             </TableCell>
             <TableCell>
@@ -67,7 +67,7 @@ const CustomerTable = ({ customers }) => {
 
                 <EditDeleteButton
                   title={user.name}
-                  id={user._id}
+                  id={user.id}
                   handleUpdate={handleUpdate}
                   handleModalOpen={handleModalOpen}
                 />

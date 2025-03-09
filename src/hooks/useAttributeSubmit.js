@@ -15,7 +15,7 @@ const useAttributeSubmit = (id) => {
     useContext(SidebarContext);
   const [variants, setVariants] = useState([]);
   const [language, setLanguage] = useState("en");
-  const [resData, setResData] = useState({});
+  const [data, setResData] = useState({});
   const [published, setPublished] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -51,7 +51,7 @@ const useAttributeSubmit = (id) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async ({ title, name, option }) => {
+  const onSubmit = async (data) => {
     try {
       setIsSubmitting(true);
       // if (!id) {
@@ -73,18 +73,19 @@ const useAttributeSubmit = (id) => {
       // );
 
       const attributeData = {
-        name: resData?.name || "" ,
-        placeholder: resData?.placeholder || "",
-        field_type: resData?.field_type || "",
-        field_type_data:resData?.field_type_data || "",
-        is_required:resData?.is_required || "",
-        css_class:resData?.css_class || "",
-        extra_attr:resData?.extra_attr || "",
-        default_value:resData?.default_value || "",
-        status:resData?.status || 0
+        name: data?.name || "" ,
+        placeholder: data?.placeholder || "",
+        field_type: data?.field_type || "",
+        field_type_data:data?.field_type_data || "",
+        is_required:data?.is_required || "",
+        css_class:data?.css_class || "",
+        extra_attr:data?.extra_attr || "",
+        default_value:data?.default_value || "",
+        status:data?.status || 0
       };
 
-      const res = await AttributeServices.addAttribute(attributeData);
+      
+      // const res = await AttributeServices.addAttribute(attributeData);
 
       console.log("attributeData", attributeData);
 
@@ -158,9 +159,9 @@ const useAttributeSubmit = (id) => {
 
   const handleSelectLanguage = (lang) => {
     setLanguage(lang);
-    if (Object.keys(resData).length > 0) {
-      setValue("title", resData.title[lang ? lang : "en"]);
-      setValue("name", resData.name[lang ? lang : "en"]);
+    if (Object.keys(data).length > 0) {
+      setValue("title", data.title[lang ? lang : "en"]);
+      setValue("name", data.name[lang ? lang : "en"]);
       // console.log('change lang', lang);
     }
   };
