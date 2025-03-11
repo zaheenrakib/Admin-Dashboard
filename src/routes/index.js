@@ -13,6 +13,7 @@ const Customers = lazy(() => import("@/pages/Customers"));
 const CustomerOrder = lazy(() => import("@/pages/CustomerOrder"));
 const Orders = lazy(() => import("@/pages/Orders"));
 const Booking = lazy(() => import("@/pages/Booking"));
+const Packages = lazy(() => import("@/pages/Packages"));
 const OrderInvoice = lazy(() => import("@/pages/OrderInvoice"));
 const Coupons = lazy(() => import("@/pages/Coupons"));
 // const Setting = lazy(() => import("@/pages/Setting"));
@@ -93,6 +94,10 @@ const routes = [
   {
     path: "/booking",
     component: Booking,
+  },
+  {
+    path: "/packages",
+    component: Packages,
   },
   {
     path: "/order/:id",
