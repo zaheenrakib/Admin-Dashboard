@@ -1,15 +1,32 @@
 import AnimatedContent from "@/components/common/AnimatedContent";
 import UploadMany from "@/components/common/UploadMany";
+import MainDrawer from "@/components/drawer/MainDrawer";
+import PackagesDrawer from "@/components/drawer/PackagesDrawer";
 import PackagesTable from "@/components/packages/PackagesTable";
 import PageTitle from "@/components/Typography/PageTitle";
+import { SidebarContext } from "@/context/SidebarContext";
 import useGetDatas from "@/hooks/useGetDatas";
-import { Button, Card, CardBody, Input, Table, TableCell, TableContainer, TableHeader } from "@windmill/react-ui";
-import React, { useState } from "react";
+import {
+  Button,
+  Card,
+  CardBody,
+  Input,
+  Table,
+  TableCell,
+  TableContainer,
+  TableHeader,
+} from "@windmill/react-ui";
+import React, { useContext, useState } from "react";
+import { FiPlus } from "react-icons/fi";
 
 const Packages = () => {
-  const [ data = [], isLoading]  = useGetDatas("/package-details", "package-details");
+  const [data = [], isLoading] = useGetDatas(
+    "/package-details",
+    "package-details"
+  );
+  const { toggleDrawer, lang } = useContext(SidebarContext);
   const [searchQuery, setSearchQuery] = useState("");
-  console.log(data)
+  console.log(data);
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -24,12 +41,23 @@ const Packages = () => {
   return (
     <>
       <PageTitle>{"Packages List"}</PageTitle>
+      <MainDrawer>
+        <PackagesDrawer />
+      </MainDrawer>
       <AnimatedContent>
-        <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
+        <Card className="min-w-0 shadow-xs flex justify-between items-center overflow-hidden bg-white dark:bg-gray-800 mb-5">
           <CardBody className="flex gap-96">
             {/* Upload Component */}
             <UploadMany title="Package" exportData={data} />
           </CardBody>
+          <div className="w-full md:w-48 lg:w-48 xl:w-48">
+            <Button onClick={toggleDrawer} className="w-full rounded-md h-12 ">
+              <span className="mr-2">
+                <FiPlus />
+              </span>
+              {"Add Package"}
+            </Button>
+          </div>
         </Card>
 
         <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
