@@ -38,9 +38,12 @@ const Booking = () => {
           <CardBody className="flex gap-96">
             {/* Upload Component */}
             <UploadMany title="Booking" exportData={data} />
+          </CardBody>
+        </Card>
 
-            {/* Search Bar */}
-            {/* <div className="flex items-center gap-2">
+        <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
+          <CardBody className="py-3 grid gap-4 lg:gap-6 xl:gap-6 md:flex xl:flex">
+            <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <Input
                 type="search"
                 placeholder="Search Booking..."
@@ -48,54 +51,20 @@ const Booking = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <Button
-                onClick={() => setSearchQuery("")}
-                className="h-12 bg-red-500 text-white"
-              >
-                Clear
-              </Button>
-            </div> */}
-
-            
-
-            {/* Show Entries Dropdown */}
-            {/* <div className="flex items-center bg-emerald-700 px-3 py-2 rounded-lg shadow-md">
-              <h1 className="text-lg font-medium text-white mr-2">
-                Show Book List
-              </h1>
-              <select className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-              </select>
-            </div> */}
+            </div>
+            <div className="flex items-center gap-2 flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
+              <div className="w-1/3">
+                <Button
+                  onClick={() => setSearchQuery("")}
+                  type="submit"
+                  className="h-12 w-full bg-emerald-700"
+                >
+                  Reset
+                </Button>
+              </div>
+            </div>
           </CardBody>
         </Card>
-
-        <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
-              <CardBody className="py-3 grid gap-4 lg:gap-6 xl:gap-6 md:flex xl:flex">
-                  <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-                    <Input
-                      type="search"
-                      placeholder="Search Booking..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div className="flex items-center gap-2 flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-                    <div className="w-1/3">
-                      <Button
-                        onClick={() => setSearchQuery("")}
-                        type="submit"
-                        className="h-12 w-full bg-emerald-700"
-                      >
-                        Reset
-                      </Button>
-                    </div>
-                  </div>
-              </CardBody>
-            </Card>
 
         {/* Table Section */}
         <TableContainer>

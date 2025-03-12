@@ -49,8 +49,6 @@ const BookingTable = ({ BookingList = [], isLoading }) => {
             {booking.eventType}
           </TableCell>
 
-         
-
           <TableCell className="font-semibold uppercase text-xs">
             {booking.peopleNum}
           </TableCell>

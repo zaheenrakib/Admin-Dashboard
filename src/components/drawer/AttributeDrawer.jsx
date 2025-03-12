@@ -1,15 +1,11 @@
 import { Select } from "@windmill/react-ui";
-import React, { Fragment } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { Scrollbars } from "react-custom-scrollbars-2";
 
-//internal import
-import Error from "@/components/form/others/Error";
-import Title from "@/components/form/others/Title";
 import LabelArea from "@/components/form/selectOption/LabelArea";
 import InputArea from "@/components/form/input/InputArea";
 import DrawerButton from "@/components/form/button/DrawerButton";
-import TagInputTwo from "@/components/common/TagInputTwo";
 import useAttributeSubmit from "@/hooks/useAttributeSubmit";
 
 const AttributeDrawer = ({ id }) => {
@@ -17,36 +13,13 @@ const AttributeDrawer = ({ id }) => {
     handleSubmit,
     onSubmit,
     register,
-    errors,
-    variants,
-    addVariant,
     isSubmitting,
-    removeVariant,
-    handleSelectLanguage,
   } = useAttributeSubmit(id);
 
   const { t } = useTranslation();
 
   return (
     <>
-      {/* <div className="w-full relative p-6 border-b border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
-        {id ? (
-          <Title
-            register={register}
-            handleSelectLanguage={handleSelectLanguage}
-            title={t("UpdateAttribute")}
-            description={t("UpdateAttributeDesc")}
-          />
-        ) : (
-          <Title
-            register={register}
-            handleSelectLanguage={handleSelectLanguage}
-            title={t("AddAttribute")}
-            description={t("AddAttributeDesc")}
-          />
-        )}
-      </div> */}
-
       <div>
         <h1 className="text-4xl text-center mt-4">Add Attributes</h1>
       </div>
