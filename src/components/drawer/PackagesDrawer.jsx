@@ -22,7 +22,7 @@ const PackagesDrawer = () => {
   const { closeDrawer } = useContext(SidebarContext);
   const axiosPunlic = useAxiosPublic();
 
-  const [packageDetails, isLoadingDetails] = useGetDatas(
+  const [packageNames, isLoadingDetails] = useGetDatas(
     "/packages",
     "packages"
   );
@@ -30,7 +30,7 @@ const PackagesDrawer = () => {
   const [description, setDescription] = useState("");
 
   const onSubmit = async (data) => {
-    console.log(data);
+    console.log(data.description);
     const res = await axiosPunlic.post("/package-details/add", data);
     if (res.status === 200 || res.status === 201) {
       notifySuccess("Package Added Successfully");
@@ -94,7 +94,7 @@ const PackagesDrawer = () => {
                   <option value="" defaultValue hidden>
                     Select PackagesName
                   </option>
-                  {packageDetails?.data?.map((data) => (
+                  {packageNames?.data?.map((data) => (
                     <option key={data.id} value={data.id}>
                       {data.name}
                     </option>

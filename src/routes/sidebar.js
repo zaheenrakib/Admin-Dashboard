@@ -8,7 +8,8 @@ import {
   FiGlobe,
   FiTarget,
   FiShoppingCart,
-  FiPackage
+  FiPackage,
+  FiShoppingBag
 } from "react-icons/fi";
 
 /**
@@ -24,7 +25,11 @@ const sidebar = [
     icon: FiGrid, // icon
     name: "Dashboard", // name that appear in Sidebar
   },
-
+  {
+    path: "/banners",
+    icon: FiShoppingBag,
+    name: "Banners",
+  },
   {
     icon: FiSlack,
     name: "Catalog",

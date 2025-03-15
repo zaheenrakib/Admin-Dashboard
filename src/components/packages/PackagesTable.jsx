@@ -18,15 +18,15 @@ const PackagesTable = ({ PackagesData = [], isLoading }) => {
           </TableCell>
 
           <TableCell className="font-semibold uppercase text-xs">
-            {packages.packageDays}
+            {packages.name}
           </TableCell>
 
           <TableCell className="font-semibold uppercase text-xs">
-            {packages.packageDescription}
+            {packages.slug}
           </TableCell>
 
           <TableCell className="font-semibold uppercase text-xs">
-            {packages.packageStatus}
+            {packages.price}
           </TableCell>
 
           <TableCell className="font-semibold uppercase text-xs">

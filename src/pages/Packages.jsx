@@ -21,8 +21,8 @@ import { FiPlus } from "react-icons/fi";
 
 const Packages = () => {
   const [data = [], isLoading] = useGetDatas(
-    "/package-details",
-    "package-details"
+    "/package",
+    "package"
   );
   const { toggleDrawer, lang } = useContext(SidebarContext);
   const [searchQuery, setSearchQuery] = useState("");
@@ -91,9 +91,9 @@ const Packages = () => {
             <TableHeader>
               <tr>
                 <TableCell>{"Id"} </TableCell>
-                <TableCell>{"DATE"}</TableCell>
                 <TableCell>{"NAME"}</TableCell>
-                <TableCell>{"PHONE"}</TableCell>
+                <TableCell>{"SLUG"}</TableCell>
+                <TableCell>{"PRICE"}</TableCell>
               </tr>
             </TableHeader>
             <PackagesTable PackagesData={filteredData} isLoading={isLoading} />
