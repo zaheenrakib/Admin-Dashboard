@@ -199,15 +199,6 @@ const Attributes = () => {
           <Table>
             <TableHeader>
               <tr>
-                {/* <TableCell>
-                  <CheckBox
-                    type="checkbox"
-                    name="selectAll"
-                    id="selectAll"
-                    handleClick={handleSelectAll}
-                    isChecked={isCheckAll}
-                  />
-                </TableCell> */}
                 <TableCell> {t("Id")} </TableCell>
                 <TableCell> {t("AName")}</TableCell>
                 <TableCell> {t("FIELD")}</TableCell>

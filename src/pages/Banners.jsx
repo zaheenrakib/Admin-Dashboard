@@ -3,7 +3,7 @@ import BannerDrawer from "@/components/drawer/BannerDrawer";
 import MainDrawer from "@/components/drawer/MainDrawer";
 import PageTitle from "@/components/Typography/PageTitle";
 import { SidebarContext } from "@/context/SidebarContext";
-import { Button } from "@windmill/react-ui";
+import { Button, Table, TableContainer, TableHeader } from "@windmill/react-ui";
 import React, { useContext } from "react";
 import { FiPlus } from "react-icons/fi";
 
@@ -26,6 +26,13 @@ const Banners = () => {
           </Button>
         </div>
       </AnimatedContent>
+      <TableContainer>
+        <Table>
+            <TableHeader>
+                
+            </TableHeader>
+        </Table>
+      </TableContainer>
     </>
   );
 };
