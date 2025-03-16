@@ -60,7 +60,7 @@ const Login = () => {
                   <InputArea
                     required={true}
                     register={register}
-                    defaultValue="123456789"
+                    defaultValue="12345678"
                     label="Password"
                     name="password"
                     type="password"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import LabelArea from "../form/selectOption/LabelArea";
 import InputArea from "../form/input/InputArea";
@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import DrawerButton from "../form/button/DrawerButton";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
 import { notifyError, notifySuccess } from "@/utils/toast";
+import { SidebarContext } from "@/context/SidebarContext";
 
 const BannerDrawer = () => {
   const {
@@ -15,7 +16,7 @@ const BannerDrawer = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   const axiosPublic = useAxiosPublic();
-
+  const { closeDrawer } = useContext(SidebarContext);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [message, setMessage] = useState("");
@@ -23,6 +24,14 @@ const BannerDrawer = () => {
   // ✅ Correct File Change Handler
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
+    // ✅ Validate image size (5MB = 5 * 1024 * 1024 bytes)
+    const maxSize = 5 * 1024 * 1024;
+    if (selectedFile.size > maxSize) {
+      notifyError("Image size must be less than 5MB.");
+      setFile(null);
+      setPreview(null);
+      return;
+    }
     if (selectedFile) {
       setFile(selectedFile);
       setPreview(URL.createObjectURL(selectedFile));
@@ -66,11 +75,13 @@ const BannerDrawer = () => {
 
     try {
       const res = await axiosPublic.post("/banners/add", bannerData);
-      if(res.status === 201){
+      if (res.status === 201) {
         notifySuccess("Banner created successfully.");
         reset();
+        closeDrawer();
         setPreview(null);
         setFile(null);
+        window.location.reload(); // ✅ Reload full page
       }
     } catch (error) {
       console.error("Banner creation failed:", error);
@@ -128,7 +139,11 @@ const BannerDrawer = () => {
                 />
               </div>
               {preview && (
-                <img src={preview} alt="Preview" className="mt-2 w-32 h-32 object-cover rounded-lg" />
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className="mt-2 w-32 h-32 object-cover rounded-lg"
+                />
               )}
             </div>
 
