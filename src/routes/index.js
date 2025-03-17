@@ -147,6 +147,7 @@ const routeAccessList = [
   { label: "Dashboard", value: "dashboard" },
   { label: "Banners", value: "banners" },
   { label: "Products", value: "products" },
+  {label : "Packages", value: "packages"},
   { label: "Categories", value: "categories" },
   { label: "Booking", value: "booking" },
   { label: "Attributes", value: "attributes" },

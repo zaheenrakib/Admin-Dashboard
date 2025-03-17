@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Switch from "react-switch";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
 import { notifySuccess, notifyError } from "@/utils/toast";
-import { FiDelete } from "react-icons/fi";
+import { FiDelete, FiTrash2 } from "react-icons/fi";
 import Swal from "sweetalert2"; // Import SweetAlert2
 
 const BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
@@ -108,7 +108,7 @@ const BannerTable = ({ data, isLoading }) => {
                   aria-label="Delete"
                   onClick={() => handleDelete(banner.id)} // Call handleDelete with SweetAlert2
                 >
-                  <FiDelete className="text-red-500" />
+                  <FiTrash2 className="text-red-500 text-2xl" />
                 </Button>
               </TableCell>
             </TableRow>
