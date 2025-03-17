@@ -9,22 +9,29 @@ import LabelArea from "@/components/form/selectOption/LabelArea";
 import TextAreaCom from "@/components/form/input/TextAreaCom";
 import DrawerButton from "@/components/form/button/DrawerButton";
 import useGetDatas from "@/hooks/useGetDatas";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
 import { useForm } from "react-hook-form";
 import { SidebarContext } from "@/context/SidebarContext";
 
 const CategoryDrawer = () => {
-  const [category, isLoading] = useGetDatas("/category/parent", "parentCategory");
+  const [category, isLoading] = useGetDatas(
+    "/category/parent",
+    "parentCategory"
+  );
   const { closeDrawer } = useContext(SidebarContext);
   const axiosPublic = useAxiosPublic();
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [message, setMessage] = useState("");
+  const [description, setDescription] = useState("");
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm();
 
@@ -77,13 +84,13 @@ const CategoryDrawer = () => {
     const categoryData = {
       name: data.name,
       description: data.description,
-      parentId:data?.parentId || 0,
+      parentId: data?.parentId || 0,
       slug: data.name?.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"),
       image: uploadedImageUrl,
       image_thumb: uploadedImageUrl,
       status: data.status,
     };
-    console.log(categoryData)
+    console.log(categoryData);
 
     try {
       const res = await axiosPublic.post("/category/add", categoryData);
@@ -101,6 +108,42 @@ const CategoryDrawer = () => {
       notifyError("Banner creation failed.");
     }
   };
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }], // Headers
+      ["bold", "italic", "underline", "strike"], // Text formatting
+      [{ list: "ordered" }, { list: "bullet" }], // Lists
+      [{ script: "sub" }, { script: "super" }], // Subscript / Superscript
+      [{ indent: "-1" }, { indent: "+1" }], // Indentation
+      [{ align: [] }], // Alignments
+      [{ color: [] }, { background: [] }], // Text color & background color
+      ["blockquote", "code-block"], // Blockquote & Code block
+      ["link", "image", "video"], // Media tools
+      ["clean"], // Remove formatting
+      ["custom-check"],
+    ],
+  };
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "list",
+    "bullet",
+    "script",
+    "indent",
+    "align",
+    "color",
+    "background",
+    "blockquote",
+    "code-block",
+    "link",
+    "image",
+    "video",
+  ];
 
   return (
     <>
@@ -125,19 +168,6 @@ const CategoryDrawer = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Description"} />
-              <div className="col-span-8 sm:col-span-4">
-                <TextAreaCom
-                  register={register}
-                  label="Description"
-                  name="description"
-                  type="text"
-                  placeholder="Category Description"
-                />
-                <Error errorName={errors.description} />
-              </div>
-            </div>
             {/* category section */}
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
               <LabelArea label={"Parent Category"} />
@@ -157,6 +187,31 @@ const CategoryDrawer = () => {
                     ))}
                   </select>
                 )}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6">
+              <LabelArea label={"Description"} />
+              <div className="col-span-8 sm:col-span-4 h-96 mb-5">
+                {/* ReactQuill Editor */}
+                <ReactQuill
+                  value={description}
+                  modules={modules}
+                  formats={formats}
+                  onChange={(content) => {
+                    setDescription(content);
+                    setValue("description", content); // Update form value
+                  }}
+                  placeholder="Write something..."
+                  className="h-[300px]"
+                />
+
+                {/* Hidden Input for React Hook Form */}
+                <input
+                  type="hidden"
+                  {...register("description")}
+                  value={description}
+                />
               </div>
             </div>
 

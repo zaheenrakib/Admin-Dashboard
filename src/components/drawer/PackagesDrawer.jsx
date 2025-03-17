@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import Scrollbars from "react-custom-scrollbars-2";
 import LabelArea from "../form/selectOption/LabelArea";
-import InputArea from "../form/input/InputArea";
 import DrawerButton from "../form/button/DrawerButton";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -16,11 +15,10 @@ const PackagesDrawer = () => {
     handleSubmit,
     register,
     setValue,
-    watch,
     formState: { isSubmitting },
   } = useForm();
   const { closeDrawer } = useContext(SidebarContext);
-  const axiosPunlic = useAxiosPublic();
+  const axiosPublic = useAxiosPublic();
 
   const [packageNames, isLoadingDetails] = useGetDatas(
     "/packages",
@@ -31,7 +29,7 @@ const PackagesDrawer = () => {
 
   const onSubmit = async (data) => {
     console.log(data.description);
-    const res = await axiosPunlic.post("/package-details/add", data);
+    const res = await axiosPublic.post("/package-details/add", data);
     if (res.status === 200 || res.status === 201) {
       notifySuccess("Package Added Successfully");
       closeDrawer();
