@@ -13,6 +13,8 @@ import ShowHideButton from "@/components/table/ShowHideButton";
 import EditDeleteButton from "@/components/table/EditDeleteButton";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
 
+const BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
 const CategoryTable = ({
   data,
   lang,
@@ -33,8 +35,6 @@ const CategoryTable = ({
     }
   };
 
-  console.log(categories)
-
   return (
     <>
       {isCheck?.length < 1 && (
@@ -48,24 +48,14 @@ const CategoryTable = ({
       <TableBody>
         {categories?.map((category) => (
           <TableRow key={category?.id}>
-            {/* <TableCell>
-              <CheckBox
-                type="checkbox"
-                name="category"
-                id={category?.id}
-                handleClick={handleClick}
-                isChecked={isCheck?.includes(category?.id)}
-              />
-            </TableCell> */}
-
             <TableCell className="font-semibold uppercase text-xs">
               {category?.id}
             </TableCell>
             <TableCell>
-              {category?.icon ? (
+              {category?.image ? (
                 <Avatar
                   className="hidden mr-3 md:block bg-gray-50 p-1"
-                  src={category?.icon}
+                  src={BASE_URL + category?.image}
                   alt={category?.parent}
                 />
               ) : (
@@ -77,12 +67,11 @@ const CategoryTable = ({
               )}
             </TableCell>
 
-           
+            <TableCell className="text-sm">{category?.name}</TableCell>
             <TableCell className="text-sm">
-              {category?.name}
-            </TableCell>
-            <TableCell className="text-sm">
-              {category?.description}
+              {category?.description?.length > 50
+                ? category.description.slice(0, 50) + "..."
+                : category.description}
             </TableCell>
 
             <TableCell className="text-center">

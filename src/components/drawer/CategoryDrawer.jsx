@@ -1,147 +1,117 @@
-import { Input } from "@windmill/react-ui";
-
-import Tree from "rc-tree";
-import React from "react";
+import React, { useContext, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
-import { useTranslation } from "react-i18next";
 
 //internal import
-import { notifyError } from "@/utils/toast";
+import { notifyError, notifySuccess } from "@/utils/toast";
 import Error from "@/components/form/others/Error";
-import Title from "@/components/form/others/Title";
 import InputArea from "@/components/form/input/InputArea";
 import LabelArea from "@/components/form/selectOption/LabelArea";
-import SwitchToggle from "@/components/form/switch/SwitchToggle";
 import TextAreaCom from "@/components/form/input/TextAreaCom";
-import Uploader from "@/components/image-uploader/Uploader";
-import useCategorySubmit from "@/hooks/useCategorySubmit";
-import CategoryServices from "@/services/CategoryServices";
 import DrawerButton from "@/components/form/button/DrawerButton";
-import useUtilsFunction from "@/hooks/useUtilsFunction";
 import useGetDatas from "@/hooks/useGetDatas";
+import useAxiosPublic from "@/hooks/useAxiosPublic";
+import { useForm } from "react-hook-form";
+import { SidebarContext } from "@/context/SidebarContext";
 
-const CategoryDrawer = ({ id, data }) => {
-  const { t } = useTranslation();
-  console.log(data);
-  const [category, isLoading] = useGetDatas("/category", "category");
+const CategoryDrawer = () => {
+  const [category, isLoading] = useGetDatas("/category/parent", "parentCategory");
+  const { closeDrawer } = useContext(SidebarContext);
+  const axiosPublic = useAxiosPublic();
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [message, setMessage] = useState("");
+
   const {
-    checked,
     register,
-    onSubmit,
     handleSubmit,
-    errors,
-    imageUrl,
-    setImageUrl,
-    published,
-    setPublished,
-    setChecked,
-    selectCategoryName,
-    setSelectCategoryName,
-    handleSelectLanguage,
-    isSubmitting,
-  } = useCategorySubmit(id, data);
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm();
 
-  const { showingTranslateValue } = useUtilsFunction();
-
-  const STYLE = `
-  .rc-tree-child-tree {
-    display: hidden;
-  }
-  .node-motion {
-    transition: all .3s;
-    overflow-y: hidden;
-  }
-`;
-
-  const motion = {
-    motionName: "node-motion",
-    motionAppear: false,
-    onAppearStart: (node) => {
-      return { height: 0 };
-    },
-    onAppearActive: (node) => ({ height: node.scrollHeight }),
-    onLeaveStart: (node) => ({ height: node.offsetHeight }),
-    onLeaveActive: () => ({ height: 0 }),
+  // ✅ Correct File Change Handler
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    // ✅ Validate image size (5MB = 5 * 1024 * 1024 bytes)
+    const maxSize = 5 * 1024 * 1024;
+    if (selectedFile.size > maxSize) {
+      notifyError("Image size must be less than 5MB.");
+      setFile(null);
+      setPreview(null);
+      return;
+    }
+    if (selectedFile) {
+      setFile(selectedFile);
+      setPreview(URL.createObjectURL(selectedFile));
+    }
   };
 
-  const renderCategories = (categories) => {
-    let myCategories = [];
-    for (let category of categories) {
-      myCategories.push({
-        title: showingTranslateValue(category.name),
-        key: category._id,
-        children:
-          category?.children?.length > 0 && renderCategories(category.children),
-      });
+  // ✅ Upload Image Function
+  const uploadImage = async () => {
+    if (!file) {
+      setMessage("Please select an image.");
+      return null;
     }
 
-    return myCategories;
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const res = await axiosPublic.post(`/images/upload`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      return res.data.imageUrl;
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      setMessage("Image upload failed.");
+      return null;
+    }
   };
 
-  const findObject = (obj, target) => {
-    return obj._id === target
-      ? obj
-      : obj?.children?.reduce(
-          (acc, obj) => acc ?? findObject(obj, target),
-          undefined
-        );
-  };
+  // ✅ Submit Form
+  const onSubmit = async (data) => {
+    console.log(data);
+    const uploadedImageUrl = await uploadImage();
+    console.log(uploadedImageUrl);
+    if (!uploadedImageUrl) return;
 
-  const handleSelect = async (key) => {
-    // console.log('key', key, 'id', id);
-    if (key === undefined) return;
-    if (id) {
-      const parentCategoryId = await CategoryServices.getCategoryById(key);
+    const categoryData = {
+      name: data.name,
+      description: data.description,
+      parentId:data?.parentId || 0,
+      slug: data.name?.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"),
+      image: uploadedImageUrl,
+      image_thumb: uploadedImageUrl,
+      status: data.status,
+    };
+    console.log(categoryData)
 
-      if (id === key) {
-        return notifyError("This can't be select as a parent category!");
-      } else if (id === parentCategoryId.parentId) {
-        return notifyError("This can't be select as a parent category!");
-      } else {
-        if (key === undefined) return;
-        setChecked(key);
-
-        const obj = data[0];
-        const result = findObject(obj, key);
-
-        setSelectCategoryName(showingTranslateValue(result?.name));
+    try {
+      const res = await axiosPublic.post("/category/add", categoryData);
+      if (res.status === 200) {
+        notifySuccess("Category created successfully.");
+        reset();
+        closeDrawer();
+        setPreview(null);
+        setFile(null);
+        window.location.reload(); // ✅ Reload full page
       }
-    } else {
-      if (key === undefined) return;
-      setChecked(key);
-
-      const obj = data[0];
-      const result = findObject(obj, key);
-
-      setSelectCategoryName(showingTranslateValue(result?.name));
+    } catch (error) {
+      console.error("Banner creation failed:", error);
+      setMessage("Banner creation failed.");
+      notifyError("Banner creation failed.");
     }
   };
 
   return (
     <>
-      <div className="w-full relative p-6 border-b border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
-        {id ? (
-          <Title
-            register={register}
-            handleSelectLanguage={handleSelectLanguage}
-            title={t("UpdateCategory")}
-            description={t("UpdateCategoryDescription")}
-          />
-        ) : (
-          <Title
-            register={register}
-            handleSelectLanguage={handleSelectLanguage}
-            title={t("AddCategoryTitle")}
-            description={t("AddCategoryDescription")}
-          />
-        )}
+      <div>
+        <h1 className="text-4xl text-center mt-4">Add Category</h1>
       </div>
-
       <Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-gray-700 dark:text-gray-200">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="p-6 flex-grow scrollbar-hide w-full max-h-full pb-40">
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={t("Name")} />
+              <LabelArea label={"Name"} />
               <div className="col-span-8 sm:col-span-4">
                 <InputArea
                   required={true}
@@ -149,14 +119,14 @@ const CategoryDrawer = ({ id, data }) => {
                   label="Category title"
                   name="name"
                   type="text"
-                  placeholder={t("ParentCategoryPlaceholder")}
+                  placeholder={"Category Name"}
                 />
                 <Error errorName={errors.name} />
               </div>
             </div>
 
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={t("Description")} />
+              <LabelArea label={"Description"} />
               <div className="col-span-8 sm:col-span-4">
                 <TextAreaCom
                   register={register}
@@ -170,19 +140,17 @@ const CategoryDrawer = ({ id, data }) => {
             </div>
             {/* category section */}
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={t("ParentCategory")} />
+              <LabelArea label={"Parent Category"} />
               <div className="col-span-8 sm:col-span-4">
                 {isLoading ? (
                   <p>Loading categories...</p>
                 ) : (
                   <select
-                    {...register("categories", {
-                      required: "Category is required!",
-                    })}
+                    {...register("parentId")}
                     className="w-full p-2 border border-gray-300 rounded-md"
                   >
                     <option value="">Select a Category</option>
-                    {category.map((cat) => (
+                    {category?.map((cat) => (
                       <option key={cat.id} value={cat.id}>
                         {cat.name}
                       </option>
@@ -192,59 +160,40 @@ const CategoryDrawer = ({ id, data }) => {
               </div>
             </div>
 
-            {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={t("ParentCategory")} />
-              <div className="col-span-8 sm:col-span-4 relative">
-                <Input
-                  readOnly
-                  {...register(`parent`, {
-                    required: false,
-                  })}
-                  name="parent"
-                  value={selectCategoryName ? selectCategoryName : "Home"}
-                  placeholder={t("ParentCategory")}
-                  type="text"
-                />
-
-                <div className="draggable-demo capitalize">
-                  <style dangerouslySetInnerHTML={{ __html: STYLE }} />
-                  <Tree
-                    expandAction="click"
-                    treeData={renderCategories(data)}
-                    selectedKeys={[checked]}
-                    onSelect={(v) => handleSelect(v[0])}
-                    motion={motion}
-                    animation="slide-up"
-                  />
-                </div>
-              </div>
-            </div> */}
-
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={t("CategoryIcon")} />
-              <div className="col-span-8 sm:col-span-4">
-                <Uploader
-                  imageUrl={imageUrl}
-                  setImageUrl={setImageUrl}
-                  folder="category"
-                  targetWidth={238}
-                  targetHeight={238}
+              <LabelArea label="Images" />
+              <div className="col-span-6 sm:col-span-4">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="border border-gray-300 rounded-lg p-2 block w-full cursor-pointer"
                 />
               </div>
+              {preview && (
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className="mt-2 w-32 h-32 object-cover rounded-lg"
+                />
+              )}
             </div>
 
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={t("Published")} />
-              <div className="col-span-8 sm:col-span-4">
-                <SwitchToggle
-                  handleProcess={setPublished}
-                  processOption={published}
-                />
+              <LabelArea label={"Status"} />
+              <div className="col-span-6 sm:col-span-4">
+                <select
+                  {...register("status", { required: true })}
+                  className="border border-gray-300 rounded-lg p-2 block w-full bg-white"
+                >
+                  <option value="1">Active</option>
+                  <option value="0">Inactive</option>
+                </select>
               </div>
             </div>
           </div>
 
-          <DrawerButton id={id} title="Category" isSubmitting={isSubmitting} />
+          <DrawerButton title="Category" isSubmitting={isSubmitting} />
         </form>
       </Scrollbars>
     </>
