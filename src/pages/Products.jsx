@@ -121,31 +121,6 @@ const Products = () => {
                 />
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
-                {/* <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-                  <Button
-                    disabled={isCheck.length < 1}
-                    onClick={() => handleUpdateMany(isCheck)}
-                    className="w-full rounded-md h-12 btn-gray text-gray-600"
-                  >
-                    <span className="mr-2">
-                      <FiEdit />
-                    </span>
-                    {t("BulkAction")}
-                  </Button>
-                </div> */}
-                {/* <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-                  <Button
-                    disabled={isCheck?.length < 1}
-                    onClick={() => handleDeleteMany(isCheck, data.products)}
-                    className="w-full rounded-md h-12 bg-red-300 disabled btn-red"
-                  >
-                    <span className="mr-2">
-                      <FiTrash2 />
-                    </span>
-
-                    {t("Delete")}
-                  </Button>
-                </div> */}
                 <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
                   <Button
                     onClick={toggleDrawer}
@@ -240,15 +215,6 @@ const Products = () => {
           <Table>
             <TableHeader>
               <tr>
-                {/* <TableCell>
-                  <CheckBox
-                    type="checkbox"
-                    name="selectAll"
-                    id="selectAll"
-                    isChecked={isCheckAll}
-                    handleClick={handleSelectAll}
-                  />
-                </TableCell> */}
                 <TableCell>{t("ID")}</TableCell>
                 <TableCell>{t("Image")}</TableCell>
                 <TableCell>{t("ProductNameTbl")}</TableCell>

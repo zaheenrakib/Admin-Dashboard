@@ -1,36 +1,27 @@
 import ReactTagInput from "@pathofdev/react-tag-input";
-import {
-  Button,
-  Input,
-  TableCell,
-  TableContainer,
-  TableHeader,
-  Textarea,
-  Table,
-} from "@windmill/react-ui";
-import React from "react";
+import { Input, Textarea } from "@windmill/react-ui";
+import React, { useContext, useState } from "react";
 import { Scrollbars } from "react-custom-scrollbars-2";
-import { MultiSelect } from "react-multi-select-component";
-import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { FiX } from "react-icons/fi";
+
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 //internal import
 import Error from "@/components/form/others/Error";
 import InputArea from "@/components/form/input/InputArea";
-import useUtilsFunction from "@/hooks/useUtilsFunction";
 import LabelArea from "@/components/form/selectOption/LabelArea";
-import DrawerButton from "@/components/form/button/DrawerButton";
 import InputValue from "@/components/form/input/InputValue";
 import useProductSubmit from "@/hooks/useProductSubmit";
 import InputValueFive from "@/components/form/input/InputValueFive";
-import Uploader from "@/components/image-uploader/Uploader";
-import UploaderThree from "@/components/image-uploader/UploaderThree";
-import AttributeOptionTwo from "@/components/attribute/AttributeOptionTwo";
-import AttributeListTable from "@/components/attribute/AttributeListTable";
 import useGetDatas from "@/hooks/useGetDatas";
+import { notifyError, notifySuccess } from "@/utils/toast";
+import useAxiosPublic from "@/hooks/useAxiosPublic";
+import DrawerButton from "../form/button/DrawerButton";
+import { useForm } from "react-hook-form";
+import { SidebarContext } from "@/context/SidebarContext";
+import { image } from "@cloudinary/url-gen/qualifiers/source";
 //internal import
 
 const ProductDrawer = ({ id }) => {
@@ -39,47 +30,129 @@ const ProductDrawer = ({ id }) => {
   const {
     tag,
     setTag,
-    values,
-    language,
-    register,
-    onSubmit,
-    errors,
+    // register,
+    // onSubmit,
+    // errors,
     slug,
-    openModal,
-    attribue,
-    setValues,
-    variants,
-    imageUrl,
-    setImageUrl,
-    handleSubmit,
-    isCombination,
-    variantTitle,
-    attributes,
-    attTitle,
-    handleAddAtt,
-    onCloseModal,
-    isBulkUpdate,
-    isSubmitting,
+    // handleSubmit,
     tapValue,
-    setTapValue,
-    handleSkuBarcode,
-    handleProductTap,
     handleProductSlug,
-    handleEditVariant,
-    handleRemoveVariant,
-    handleClearVariant,
-    handleQuantityPrice,
-    handleSelectImage,
-    handleSelectInlineImage,
-    handleGenerateCombination,
+    // isSubmitting,
   } = useProductSubmit(id);
 
-  const { currency, showingTranslateValue } = useUtilsFunction();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm();
+  const [category, isLoading] = useGetDatas("/category/parent", "category");
+  const [subcategory] = useGetDatas("/category", "subCategory");
+  const { closeDrawer } = useContext(SidebarContext);
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [description, setDescription] = useState("");
+  const [returnPolicy, setReturnPolicy] = useState("");
 
-  const [category, isLoading] = useGetDatas("/category", "category");
-  const [subcategory] = useGetDatas("/subcategory" , "subCategory")
-  console.log(category);
-  console.log(subcategory)
+  const axiosPublic = useAxiosPublic();
+
+  // ✅ Correct File Change Handler
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    // ✅ Validate image size (5MB = 5 * 1024 * 1024 bytes)
+    const maxSize = 5 * 1024 * 1024;
+    if (selectedFile.size > maxSize) {
+      notifyError("Image size must be less than 5MB.");
+      setFile(null);
+      setPreview(null);
+      return;
+    }
+    if (selectedFile) {
+      setFile(selectedFile);
+      setPreview(URL.createObjectURL(selectedFile));
+    }
+  };
+
+  // ✅ Upload Multiple Images Function
+const uploadImages = async (files) => {
+  if (!files || files.length === 0) {
+    setMessage("Please select images.");
+    return null;
+  }
+
+  const formData = new FormData();
+  Array.from(files).forEach((file) => formData.append("images", file)); // Append multiple files
+
+  try {
+    const res = await axiosPublic.post(`/images/upload`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    
+    return res.data.imageUrls; // Expecting an array of URLs from backend
+  } catch (error) {
+    console.error("Image upload failed:", error);
+    setMessage("Image upload failed.");
+    return null;
+  }
+};
+
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    const imageUrl = await uploadImages();
+    
+    if (imageUrl) {
+      data.image = imageUrl;
+      const productData = {
+        ...data,
+        slug: data?.productName?.toLowerCase().split(" ").join("-"),
+        image: imageUrl,
+        tag: tag,
+      };
+      const res = await axiosPublic.post("/products/add", productData);
+      if (res.status === 200 || res.status === 201) {
+        notifySuccess("Product Added Successfully");
+        closeDrawer();
+      }
+    }
+  };
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }], // Headers
+      ["bold", "italic", "underline", "strike"], // Text formatting
+      [{ list: "ordered" }, { list: "bullet" }], // Lists
+      [{ script: "sub" }, { script: "super" }], // Subscript / Superscript
+      [{ indent: "-1" }, { indent: "+1" }], // Indentation
+      [{ align: [] }], // Alignments
+      [{ color: [] }, { background: [] }], // Text color & background color
+      ["blockquote", "code-block"], // Blockquote & Code block
+      ["link", "image", "video"], // Media tools
+      ["clean"], // Remove formatting
+      ["custom-check"],
+    ],
+  };
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "list",
+    "bullet",
+    "script",
+    "indent",
+    "align",
+    "color",
+    "background",
+    "blockquote",
+    "code-block",
+    "link",
+    "image",
+    "video",
+  ];
 
   if (isLoading) {
     return (
@@ -88,27 +161,9 @@ const ProductDrawer = ({ id }) => {
       </div>
     );
   }
+
   return (
     <>
-      <Modal
-        open={openModal}
-        onClose={onCloseModal}
-        center
-        closeIcon={
-          <div className="absolute top-0 right-0 text-red-500  active:outline-none text-xl border-0">
-            <FiX className="text-3xl" />
-          </div>
-        }
-      >
-        <div className="cursor-pointer">
-          <UploaderThree
-            imageUrl={imageUrl}
-            setImageUrl={setImageUrl}
-            handleSelectImage={handleSelectImage}
-          />
-        </div>
-      </Modal>
-
       <div className="flex justify-center items-center">
         <h1 className="text-4xl mt-5">Add Product</h1>
       </div>
@@ -130,7 +185,7 @@ const ProductDrawer = ({ id }) => {
                       className="w-full p-2 border border-gray-300 rounded-md"
                     >
                       <option value="">Select a Category</option>
-                      {category.map((cat) => (
+                      {category?.map((cat) => (
                         <option key={cat.id} value={cat.id}>
                           {cat.name}
                         </option>
@@ -143,7 +198,7 @@ const ProductDrawer = ({ id }) => {
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Sub Category")} />
                 <div className="col-span-8 sm:col-span-4">
-                {isLoading ? (
+                  {isLoading ? (
                     <p>Loading categories...</p>
                   ) : (
                     <select
@@ -173,27 +228,8 @@ const ProductDrawer = ({ id }) => {
                     name="productName"
                     type="text"
                     placeholder={t("ProductName")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
                   />
                   <Error errorName={errors.title} />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductSlug")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                    {...register(`slug`, {
-                      required: "slug is required!",
-                    })}
-                    className=" mr-2 p-2"
-                    name="slug"
-                    type="text"
-                    defaultValue={slug}
-                    placeholder={t("ProductSlug")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
-                  />
-                  <Error errorName={errors.slug} />
                 </div>
               </div>
 
@@ -259,14 +295,22 @@ const ProductDrawer = ({ id }) => {
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("ProductImage")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Uploader
-                    product
-                    folder="product"
-                    imageUrl={imageUrl}
-                    setImageUrl={setImageUrl}
+                <div className="col-span-6 sm:col-span-4">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleFileChange}
+                    className="border border-gray-300 rounded-lg p-2 block w-full cursor-pointer"
                   />
                 </div>
+                {preview && (
+                  <img
+                    src={preview}
+                    alt="Preview"
+                    className="mt-2 w-32 h-32 object-cover rounded-lg"
+                  />
+                )}
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
@@ -279,7 +323,6 @@ const ProductDrawer = ({ id }) => {
                     name="stock"
                     type="text"
                     placeholder={t("Product Stock")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
                   />
                   <Error errorName={errors.title} />
                 </div>
@@ -348,27 +391,54 @@ const ProductDrawer = ({ id }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-20">
                 <LabelArea label={t("ProductDescription")} />
                 <div className="col-span-8 sm:col-span-4">
-                  <Textarea
-                    className="border text-sm  block w-full bg-gray-100 border-gray-200"
-                    {...register("description", {
-                      required: false,
-                    })}
-                    name="description"
-                    placeholder={t("ProductDescription")}
-                    rows="4"
-                    spellCheck="false"
+                  {/* ReactQuill Editor */}
+                  <ReactQuill
+                    value={description}
+                    modules={modules}
+                    formats={formats}
+                    onChange={(content) => {
+                      setDescription(content);
+                      setValue("description", content); // Update form value
+                    }}
+                    placeholder="Write something..."
+                    className="h-[300px]"
                   />
-                  <Error errorName={errors.description} />
+
+                  {/* Hidden Input for React Hook Form */}
+                  <input
+                    type="hidden"
+                    {...register("description")}
+                    value={description}
+                  />
                 </div>
               </div>
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-16 mt-10">
                 <LabelArea label={t("Return Policy")} />
                 <div className="col-span-8 sm:col-span-4">
-                  <Textarea
+                  {/* ReactQuill Editor */}
+                  <ReactQuill
+                    value={returnPolicy}
+                    modules={modules}
+                    formats={formats}
+                    onChange={(content) => {
+                      setReturnPolicy(content);
+                      setValue("returnPolicy", content); // Update form value
+                    }}
+                    placeholder="Write something..."
+                    className="h-[300px]"
+                  />
+
+                  {/* Hidden Input for React Hook Form */}
+                  <input
+                    type="hidden"
+                    {...register("returnPolicy")}
+                    value={returnPolicy}
+                  />
+                  {/* <Textarea
                     className="border text-sm  block w-full bg-gray-100 border-gray-200"
                     {...register("returnPolicy", {
                       required: false,
@@ -378,104 +448,12 @@ const ProductDrawer = ({ id }) => {
                     rows="4"
                     spellCheck="false"
                   />
-                  <Error errorName={errors.description} />
+                  <Error errorName={errors.description} /> */}
                 </div>
               </div>
             </div>
           )}
-
-          {tapValue === "Combination" &&
-            isCombination &&
-            (attribue.length < 1 ? (
-              <div
-                className="bg-teal-100 border border-teal-600 rounded-md text-teal-900 px-4 py-3 m-4"
-                role="alert"
-              >
-                <div className="flex">
-                  <div className="py-1">
-                    <svg
-                      className="fill-current h-6 w-6 text-teal-500 mr-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-sm">
-                      {t("AddCombinationsDiscription")}{" "}
-                      <Link to="/attributes" className="font-bold">
-                        {t("AttributesFeatures")}
-                      </Link>
-                      {t("AddCombinationsDiscriptionTwo")}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="p-6">
-                {/* <h4 className="mb-4 font-semibold text-lg">Variants</h4> */}
-                <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-3 md:gap-3 xl:gap-3 lg:gap-2 mb-3">
-                  <MultiSelect
-                    options={attTitle}
-                    value={attributes}
-                    onChange={(v) => handleAddAtt(v)}
-                    labelledBy="Select"
-                  />
-
-                  {attributes?.map((attribute, i) => (
-                    <div key={attribute._id}>
-                      <div className="flex w-full h-10 justify-between font-sans rounded-tl rounded-tr bg-gray-200 px-4 py-3 text-left text-sm font-normal text-gray-700 hover:bg-gray-200">
-                        {"Select"}
-                        {showingTranslateValue(attribute?.title)}
-                      </div>
-
-                      <AttributeOptionTwo
-                        id={i + 1}
-                        values={values}
-                        lang={language}
-                        attributes={attribute}
-                        setValues={setValues}
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex justify-end mb-6">
-                  {attributes?.length > 0 && (
-                    <Button
-                      onClick={handleGenerateCombination}
-                      type="button"
-                      className="mx-2"
-                    >
-                      <span className="text-xs">{t("GenerateVariants")}</span>
-                    </Button>
-                  )}
-
-                  {variantTitle.length > 0 && (
-                    <Button onClick={handleClearVariant} className="mx-2">
-                      <span className="text-xs">{t("ClearVariants")}</span>
-                    </Button>
-                  )}
-                </div>
-              </div>
-            ))}
-
-          {isCombination ? (
-            <DrawerButton
-              id={id}
-              save
-              title="Product"
-              isSubmitting={isSubmitting}
-              handleProductTap={handleProductTap}
-            />
-          ) : (
-            <DrawerButton id={id} title="Product" isSubmitting={isSubmitting} />
-          )}
-
-          {tapValue === "Combination" && (
-            <DrawerButton id={id} title="Product" isSubmitting={isSubmitting} />
-          )}
+          <DrawerButton id={id} title="Product" isSubmitting={isSubmitting} />
         </form>
       </Scrollbars>
     </>

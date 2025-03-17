@@ -6,7 +6,6 @@ import { notifyError, notifySuccess } from "@/utils/toast";
 import Error from "@/components/form/others/Error";
 import InputArea from "@/components/form/input/InputArea";
 import LabelArea from "@/components/form/selectOption/LabelArea";
-import TextAreaCom from "@/components/form/input/TextAreaCom";
 import DrawerButton from "@/components/form/button/DrawerButton";
 import useGetDatas from "@/hooks/useGetDatas";
 import ReactQuill from "react-quill";

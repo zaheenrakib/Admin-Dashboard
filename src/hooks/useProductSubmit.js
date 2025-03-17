@@ -143,15 +143,6 @@ const useProductSubmit = (id) => {
         tag: JSON.stringify(tag),
         description:data?.description || "",
         returnPolicy:data?.returnPolicy || "",
-        // categories: selectedCategory.map((item) => item._id),
-        // category: defaultCategory[0]._id,
-        // prices: {
-        //   price: getNumber(data.price),
-        //   originalPrice: getNumberTwo(data.originalPrice),
-        //   discount: Number(data.originalPrice) - Number(data.price),
-        // },
-        // isCombination: updatedVariants?.length > 0 ? isCombination : false,
-        // variants: isCombination ? updatedVariants : [],
       };
 
       // console.log("productData ===========>", productData, "data", data);

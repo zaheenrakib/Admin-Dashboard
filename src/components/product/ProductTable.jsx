@@ -22,6 +22,9 @@ import useUtilsFunction from "@/hooks/useUtilsFunction";
 
 //internal import
 
+
+const BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
 const ProductTable = ({ products, isCheck, setIsCheck }) => {
   const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
   const { currency, showingTranslateValue, getNumberTwo } = useUtilsFunction();
@@ -49,26 +52,15 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
       <TableBody>
         {products?.map((product, i) => (
           <TableRow key={i + 1}>
-            {/* <TableCell>
-              <CheckBox
-                type="checkbox"
-                name={product?.productName}
-                id={product?.id}
-                handleClick={handleClick}
-                isChecked={isCheck?.includes(product?.id)}
-              />
-            </TableCell> */}
-
             <TableCell className="font-semibold uppercase text-xs">
               {product?.id}
             </TableCell>
-
             <TableCell>
               <div className="flex items-center">
-                {product?.image[0] ? (
+                {product?.image ? (
                   <Avatar
                     className="hidden p-1 mr-2 md:block bg-gray-50 shadow-none"
-                    src={product?.image[0]}
+                    src={BASE_URL+product?.image}
                     alt="product"
                   />
                 ) : (
