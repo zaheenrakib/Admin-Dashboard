@@ -1,7 +1,7 @@
 import { SidebarContext } from "@/context/SidebarContext";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
 import useGetDatas from "@/hooks/useGetDatas";
-import { notifySuccess } from "@/utils/toast";
+import { notifyError, notifySuccess } from "@/utils/toast";
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import DrawerButton from "../form/button/DrawerButton";
@@ -23,10 +23,15 @@ const PackageMappingDrawer = () => {
   const [productNames, isLoading] = useGetDatas("/products", "products");
 console.log(productNames)
   const onSubmit = async (data) => {
-    const res = await axiosPublic.post("/package-mapping/add", data);
-    if (res.status === 200 || res.status === 201) {
-      notifySuccess("Package Added Successfully");
-      closeDrawer();
+    try {
+      const res = await axiosPublic.post("/package-mapping/add", data);
+      console.log(res)
+      if (res.status === 201 || res.status === 200) {
+        notifySuccess("Package Mapping Added Successfully");
+        closeDrawer();
+      }
+    } catch (error) {
+      notifyError(error?.response?.data?.message);
     }
   };
 
@@ -64,7 +69,7 @@ console.log(productNames)
 
             {/* Product ID */}
             <div className="grid grid-cols-6 gap-3 mb-6">
-              <LabelArea label="Package Name" />
+              <LabelArea label="Product Name" />
               <div className="col-span-8 sm:col-span-4">
                 <select
                 className="w-full p-2 border border-gray-300 rounded-md"
@@ -94,7 +99,7 @@ console.log(productNames)
                     required: "Package-Days is required!",
                   })}
                 >
-                  <option value="" defaultValue hidden>
+                  <option value="" hidden>
                     Select Packages Days
                   </option>
                   <option value="1">Saturday</option>
@@ -116,10 +121,7 @@ console.log(productNames)
                   name="status"
                   {...register("status", { required: "Status is required!" })}
                 >
-                  <option value="" defaultValue hidden>
-                    Select Status
-                  </option>
-                  <option value="Active">Active</option>
+                  <option selected value="Active">Active</option>
                   <option value="Inactive">Inactive</option>
                 </select>
               </div>

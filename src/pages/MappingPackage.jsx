@@ -83,8 +83,8 @@ const MappingPackage = () => {
             <TableHeader>
               <tr>
                 <TableCell>{"Id"} </TableCell>
-                <TableCell>{"Package ID"}</TableCell>
-                <TableCell>{"Product ID"}</TableCell>
+                <TableCell>{"Package Name"}</TableCell>
+                <TableCell>{"Product Name"}</TableCell>
                 <TableCell>{"Package Days"}</TableCell>
                 <TableCell>{"Status"}</TableCell>
               </tr>
