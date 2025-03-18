@@ -6,6 +6,7 @@ import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import DrawerButton from "../form/button/DrawerButton";
 import Scrollbars from "react-custom-scrollbars-2";
+import LabelArea from "../form/selectOption/LabelArea";
 
 const PackageMappingDrawer = () => {
   const {
@@ -19,14 +20,17 @@ const PackageMappingDrawer = () => {
   const axiosPublic = useAxiosPublic();
 
   const [packageNames, isLoadingDetails] = useGetDatas("/packages", "packages");
-
+  const [productNames, isLoading] = useGetDatas("/products", "products");
+console.log(productNames)
   const onSubmit = async (data) => {
-    const res = await axiosPublic.post("/package-details/add", data);
+    const res = await axiosPublic.post("/package-mapping/add", data);
     if (res.status === 200 || res.status === 201) {
       notifySuccess("Package Added Successfully");
       closeDrawer();
     }
   };
+
+  if(isLoading || isLoadingDetails) return <h1>Loading...</h1>
 
   return (
     <>
@@ -42,6 +46,7 @@ const PackageMappingDrawer = () => {
               <LabelArea label="Package Name" />
               <div className="col-span-8 sm:col-span-4">
                 <select
+                className="w-full p-2 border border-gray-300 rounded-md"
                   name="packageId"
                   {...register("packageId", { required: "Name is required!" })}
                 >
@@ -57,11 +62,33 @@ const PackageMappingDrawer = () => {
               </div>
             </div>
 
+            {/* Product ID */}
+            <div className="grid grid-cols-6 gap-3 mb-6">
+              <LabelArea label="Package Name" />
+              <div className="col-span-8 sm:col-span-4">
+                <select
+                className="w-full p-2 border border-gray-300 rounded-md"
+                  name="productId"
+                  {...register("productId", { required: "Product is required!" })}
+                >
+                  <option value="" defaultValue hidden>
+                    Select Product Name
+                  </option>
+                  {productNames?.rows?.map((data) => (
+                    <option key={data.id} value={data.id}>
+                      {data.productName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
             {/* Package Days */}
             <div className="grid grid-cols-6 gap-3 mb-6">
               <LabelArea label="Package Days" />
               <div className="col-span-8 sm:col-span-4">
                 <select
+                className="w-full p-2 border border-gray-300 rounded-md"
                   name="packageDays"
                   {...register("packageDays", {
                     required: "Package-Days is required!",
@@ -85,6 +112,7 @@ const PackageMappingDrawer = () => {
               <LabelArea label="Status" />
               <div className="col-span-8 sm:col-span-4">
                 <select
+                className="w-full p-2 border border-gray-300 rounded-md"
                   name="status"
                   {...register("status", { required: "Status is required!" })}
                 >
@@ -98,7 +126,7 @@ const PackageMappingDrawer = () => {
             </div>
 
             {/* Submit Button */}
-            <DrawerButton title="Add Package Mapping" isSubmitting={isSubmitting} />
+            <DrawerButton title="Package Mapping" isSubmitting={isSubmitting} />
           </div>
         </form>
       </Scrollbars>

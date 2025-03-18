@@ -7,6 +7,7 @@ const Attributes = lazy(() => import("@/pages/Attributes"));
 const ChildAttributes = lazy(() => import("@/pages/ChildAttributes"));
 const Products = lazy(() => import("@/pages/Products"));
 const ProductDetails = lazy(() => import("@/pages/ProductDetails"));
+const MappingPackage = lazy(() => import("@/pages/MappingPackage"));
 const Category = lazy(() => import("@/pages/Category"));
 const ChildCategory = lazy(() => import("@/pages/ChildCategory"));
 const Staff = lazy(() => import("@/pages/Staff"));
@@ -103,6 +104,10 @@ const routes = [
   {
     path: "/packages",
     component: Packages,
+  },
+  {
+    path: "/mapping-packages",
+    component: MappingPackage,
   },
   {
     path: "/order/:id",

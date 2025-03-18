@@ -76,6 +76,13 @@ const sidebar = [
   },
 
   {
+    path: "/mapping-packages",
+    icon: FiPackage,
+    name: "Mapping Packages",
+  },
+
+
+  {
     path: "/our-staff",
     icon: FiUser,
     name: "OurStaff",
