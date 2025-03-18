@@ -28,7 +28,6 @@ import { SidebarContext } from "@/context/SidebarContext";
 import ProductTable from "@/components/product/ProductTable";
 import MainDrawer from "@/components/drawer/MainDrawer";
 import ProductDrawer from "@/components/drawer/ProductDrawer";
-import CheckBox from "@/components/form/others/CheckBox";
 import useProductFilter from "@/hooks/useProductFilter";
 import DeleteModal from "@/components/modal/DeleteModal";
 import BulkActionDrawer from "@/components/drawer/BulkActionDrawer";
@@ -220,9 +219,9 @@ const Products = () => {
                 <TableCell>{t("ProductNameTbl")}</TableCell>
                 <TableCell>{t("PriceTbl")}</TableCell>
                 <TableCell>Sale Price</TableCell>
-                <TableCell>{t("StockTbl")}</TableCell>
+                <TableCell>{t("QuntityTbl")}</TableCell>
                 <TableCell>{t("StatusTbl")}</TableCell>
-                <TableCell className="text-center">{t("DetailsTbl")}</TableCell>
+                {/* <TableCell className="text-center">{t("DetailsTbl")}</TableCell> */}
                 <TableCell className="text-center">
                   {t("PublishedTbl")}
                 </TableCell>

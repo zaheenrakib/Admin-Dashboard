@@ -20,19 +20,20 @@ import React, { useContext, useState } from "react";
 import { FiPlus } from "react-icons/fi";
 
 const Packages = () => {
-  const [data = [], isLoading] = useGetDatas(
-    "/package",
-    "package"
-  );
+  const [data, isLoading] = useGetDatas( "/packages","packages" );
   const { toggleDrawer, lang } = useContext(SidebarContext);
   const [searchQuery, setSearchQuery] = useState("");
+
+  
   console.log(data);
+
+
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
 
   // Filtered data based on search query
-  const filteredData = data?.filter((item) =>
+  const filteredData = data?.data?.filter((item) =>
     Object.values(item).some((value) =>
       value?.toString().toLowerCase().includes(searchQuery.toLowerCase())
     )

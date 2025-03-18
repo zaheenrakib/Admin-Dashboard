@@ -96,16 +96,16 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
             </TableCell>
 
             <TableCell>
-              <span className="text-sm">{product?.stock}</span>
+              <span className="text-sm">{product?.productQuantity}</span>
             </TableCell>
             <TableCell>
-              {product.stock > 0 ? (
+              {product.productQuantity > 0 ? (
                 <Badge type="success">{t("Selling")}</Badge>
               ) : (
                 <Badge type="danger">{t("SoldOut")}</Badge>
               )}
             </TableCell>
-            <TableCell>
+            {/* <TableCell>
               <Link
                 to={`/product/${product?.id}`}
                 className="flex justify-center text-gray-400 hover:text-emerald-600"
@@ -117,7 +117,7 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
                   bgColor="#10B981"
                 />
               </Link>
-            </TableCell>
+            </TableCell> */}
             <TableCell className="text-center">
               <ShowHideButton id={product?.id} status={product.status} />
               {/* {product.status} */}

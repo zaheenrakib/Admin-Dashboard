@@ -5,10 +5,10 @@ import LabelArea from "../form/selectOption/LabelArea";
 import DrawerButton from "../form/button/DrawerButton";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import useGetDatas from "@/hooks/useGetDatas";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
 import { notifySuccess } from "@/utils/toast";
 import { SidebarContext } from "@/context/SidebarContext";
+import { Input } from "@windmill/react-ui";
 
 const PackagesDrawer = () => {
   const {
@@ -20,16 +20,11 @@ const PackagesDrawer = () => {
   const { closeDrawer } = useContext(SidebarContext);
   const axiosPublic = useAxiosPublic();
 
-  const [packageNames, isLoadingDetails] = useGetDatas(
-    "/packages",
-    "packages"
-  );
-
   const [description, setDescription] = useState("");
 
   const onSubmit = async (data) => {
-    console.log(data.description);
-    const res = await axiosPublic.post("/package-details/add", data);
+    const packageData = { ...data, slug: data.name?.toLowerCase().replace(/[^A-Z0-9]+/gi, "-") };
+    const res = await axiosPublic.post("/packages/add", packageData);
     if (res.status === 200 || res.status === 201) {
       notifySuccess("Package Added Successfully");
       closeDrawer();
@@ -85,42 +80,29 @@ const PackagesDrawer = () => {
             <div className="grid grid-cols-6 gap-3 mb-6">
               <LabelArea label="Package Name" />
               <div className="col-span-8 sm:col-span-4">
-                <select
-                  name="packageId"
-                  {...register("packageId", { required: "Name is required!" })}
-                >
-                  <option value="" defaultValue hidden>
-                    Select PackagesName
-                  </option>
-                  {packageNames?.data?.map((data) => (
-                    <option key={data.id} value={data.id}>
-                      {data.name}
-                    </option>
-                  ))}
-                </select>
+                <Input
+                  {...register(`name`, {
+                    required: "Product name is required!",
+                  })}
+                  name="name"
+                  type="text"
+                  placeholder={"ProductName"}
+                />
               </div>
             </div>
 
             {/* Package Days */}
             <div className="grid grid-cols-6 gap-3 mb-6">
-              <LabelArea label="Package Days" />
+              <LabelArea label="Package Price" />
               <div className="col-span-8 sm:col-span-4">
-                <select
-                  name="packageDays"
-                  {...register("packageDays", {
-                    required: "Package-Days is required!",
+                <Input
+                  {...register(`price`, {
+                    required: "Package-Price is required!",
                   })}
-                >
-                  <option value="" defaultValue hidden>
-                    Select Packages Days
-                  </option>
-                  <option value="1">Saturday</option>
-                  <option value="2">Sunday</option>
-                  <option value="3">Monday</option>
-                  <option value="4">Tuesday</option>
-                  <option value="5">Wednesday</option>
-                  <option value="6">Thursday</option>
-                </select>
+                  name="price"
+                  type="text"
+                  placeholder={"PackagePrice"}
+                />
               </div>
             </div>
 
@@ -158,10 +140,9 @@ const PackagesDrawer = () => {
                   name="status"
                   {...register("status", { required: "Status is required!" })}
                 >
-                  <option value="" defaultValue hidden>
-                    Select Status
+                  <option selected value="Active">
+                    Active
                   </option>
-                  <option value="Active">Active</option>
                   <option value="Inactive">Inactive</option>
                 </select>
               </div>

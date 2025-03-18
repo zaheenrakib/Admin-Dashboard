@@ -74,33 +74,56 @@ const ProductDrawer = ({ id }) => {
     }
   };
 
-  // ✅ Upload Multiple Images Function
-const uploadImages = async (files) => {
-  if (!files || files.length === 0) {
-    setMessage("Please select images.");
+//   // ✅ Upload Multiple Images Function
+// const uploadImages = async (files) => {
+//   if (!files || files.length === 0) {
+//     setMessage("Please select images.");
+//     return null;
+//   }
+
+//   const formData = new FormData();
+//   Array.from(files).forEach((file) => formData.append("images", file)); // Append multiple files
+
+//   try {
+//     const res = await axiosPublic.post(`/images/upload`, formData, {
+//       headers: { "Content-Type": "multipart/form-data" },
+//     });
+    
+//     return res.data.imageUrls; // Expecting an array of URLs from backend
+//   } catch (error) {
+//     console.error("Image upload failed:", error);
+//     setMessage("Image upload failed.");
+//     return null;
+//   }
+// };
+
+const uploadImage = async () => {
+  if (!file) {
+    notifyError("Please select an image.");
     return null;
   }
 
   const formData = new FormData();
-  Array.from(files).forEach((file) => formData.append("images", file)); // Append multiple files
+  formData.append("image", file); // Append single file
 
   try {
     const res = await axiosPublic.post(`/images/upload`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    
-    return res.data.imageUrls; // Expecting an array of URLs from backend
+
+    return res.data.imageUrl; // Expecting a single URL from the backend
   } catch (error) {
     console.error("Image upload failed:", error);
-    setMessage("Image upload failed.");
+    notifyError("Image upload failed.");
     return null;
   }
 };
 
 
+
   const onSubmit = async (data) => {
     console.log(data);
-    const imageUrl = await uploadImages();
+    const imageUrl = await uploadImage();
     
     if (imageUrl) {
       data.image = imageUrl;
@@ -110,6 +133,7 @@ const uploadImages = async (files) => {
         image: imageUrl,
         tag: tag,
       };
+      console.log(productData);
       const res = await axiosPublic.post("/products/add", productData);
       if (res.status === 200 || res.status === 201) {
         notifySuccess("Product Added Successfully");
@@ -173,7 +197,7 @@ const uploadImages = async (files) => {
           {tapValue === "Basic Info" && (
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Category")} />
+                <LabelArea label={t("Category *")} />
                 <div className="col-span-8 sm:col-span-4">
                   {isLoading ? (
                     <p>Loading categories...</p>
@@ -203,7 +227,6 @@ const uploadImages = async (files) => {
                   ) : (
                     <select
                       {...register("subCategory", {
-                        required: "Category is required!",
                       })}
                       className="w-full p-2 border border-gray-300 rounded-md"
                     >
@@ -219,7 +242,7 @@ const uploadImages = async (files) => {
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Product Name")} />
+                <LabelArea label={t("Product Name *")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`productName`, {
@@ -238,7 +261,6 @@ const uploadImages = async (files) => {
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`productCode`, {
-                      required: "productCode is required!",
                     })}
                     name="productCode"
                     type="text"
@@ -278,7 +300,7 @@ const uploadImages = async (files) => {
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductTitleName")} />
+                <LabelArea label={t("ProductTitleName *")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`title`, {
@@ -294,12 +316,11 @@ const uploadImages = async (files) => {
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductImage")} />
+                <LabelArea label={t("ProductImage *")} />
                 <div className="col-span-6 sm:col-span-4">
                   <input
                     type="file"
                     accept="image/*"
-                    multiple
                     onChange={handleFileChange}
                     className="border border-gray-300 rounded-lg p-2 block w-full cursor-pointer"
                   />
@@ -312,22 +333,7 @@ const uploadImages = async (files) => {
                   />
                 )}
               </div>
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Product Stock")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                    {...register(`stock`, {
-                      required: "Stock is required!",
-                    })}
-                    name="stock"
-                    type="text"
-                    placeholder={t("Product Stock")}
-                  />
-                  <Error errorName={errors.title} />
-                </div>
-              </div>
-
+              
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("ProductTag")} />
                 <div className="col-span-8 sm:col-span-4">
@@ -340,7 +346,7 @@ const uploadImages = async (files) => {
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label="Purchase Price" />
+                <LabelArea label="Purchase Price *" />
                 <div className="col-span-8 sm:col-span-4">
                   <InputValue
                     register={register}
@@ -358,7 +364,7 @@ const uploadImages = async (files) => {
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Sale Price")} />
+                <LabelArea label={t("Sale Price *")} />
                 <div className="col-span-8 sm:col-span-4">
                   <InputValue
                     register={register}
@@ -375,7 +381,7 @@ const uploadImages = async (files) => {
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6 relative">
-                <LabelArea label={t("Product Quantity")} />
+                <LabelArea label={t("Product Quantity *")} />
                 <div className="col-span-8 sm:col-span-4">
                   <InputValueFive
                     required={true}
@@ -438,17 +444,6 @@ const uploadImages = async (files) => {
                     {...register("returnPolicy")}
                     value={returnPolicy}
                   />
-                  {/* <Textarea
-                    className="border text-sm  block w-full bg-gray-100 border-gray-200"
-                    {...register("returnPolicy", {
-                      required: false,
-                    })}
-                    name="returnPolicy"
-                    placeholder={t("Return Policy")}
-                    rows="4"
-                    spellCheck="false"
-                  />
-                  <Error errorName={errors.description} /> */}
                 </div>
               </div>
             </div>
