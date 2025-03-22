@@ -48,7 +48,6 @@ const OrderTable = ({ orders }) => {
 
             <TableCell>
               <span className="text-sm font-semibold">
-                {currency}
                 {getNumberTwo(order?.total)}
               </span>
             </TableCell>

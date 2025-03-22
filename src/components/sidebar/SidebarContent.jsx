@@ -8,8 +8,6 @@ import { IoLogOutOutline } from "react-icons/io5";
 //internal import
 import sidebar from "@/routes/sidebar";
 // import SidebarSubMenu from "SidebarSubMenu";
-import logoDark from "@/assets/img/logo/logo-color.svg";
-import logoLight from "@/assets/img/logo/logo-dark.svg";
 import zaiqalogo from "@/assets/img/logo/zaiqa.jpg";
 import { AdminContext } from "@/context/AdminContext";
 import SidebarSubMenu from "@/components/sidebar/SidebarSubMenu";
@@ -52,11 +50,6 @@ const SidebarContent = () => {
     <div className="py-4 text-gray-500 dark:text-gray-400">
       <a className=" text-gray-900 dark:text-gray-200" href="/dashboard">
       <img src={zaiqalogo} alt="zaiqa logo" width={135} className="ml-5 rounded-full" />
-        {/* {mode === "dark" ? (
-          <img src={logoLight} alt="kachabazar" width="135" className="pl-6" />
-        ) : (
-          <img src={logoDark} alt="kachabazar" width="135" className="pl-6" />
-        )} */}
       </a>
       <ul className="mt-8">
         {updatedSidebar?.map((route) =>
