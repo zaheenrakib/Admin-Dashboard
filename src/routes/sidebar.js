@@ -81,6 +81,11 @@ const sidebar = [
     name: "Mapping Packages",
   },
 
+  {
+    path: "/daily-deals",
+    icon: FiSlack,
+    name: "Daily Deals",
+  },
 
   {
     path: "/our-staff",

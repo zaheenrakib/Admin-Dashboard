@@ -42,16 +42,6 @@ const AttributeTable = ({ isCheck, setIsCheck, attributes }) => {
       <TableBody>
         {attributes?.map((attribute) => (
           <TableRow key={attribute.id}>
-            {/* <TableCell>
-              <CheckBox
-                type="checkbox"
-                name="attribute"
-                id={attribute.id}
-                handleClick={handleClick}
-                isChecked={isCheck?.includes(attribute.id)}
-              />
-            </TableCell> */}
-
             <TableCell className="font-semibold uppercase text-xs">
               {attribute?.id}
             </TableCell>

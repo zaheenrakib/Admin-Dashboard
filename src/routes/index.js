@@ -16,6 +16,7 @@ const CustomerOrder = lazy(() => import("@/pages/CustomerOrder"));
 const Orders = lazy(() => import("@/pages/Orders"));
 const Booking = lazy(() => import("@/pages/Booking"));
 const Packages = lazy(() => import("@/pages/Packages"));
+const DailyDeals = lazy(() => import("@/pages/DailyDeals"));
 const OrderInvoice = lazy(() => import("@/pages/OrderInvoice"));
 const Coupons = lazy(() => import("@/pages/Coupons"));
 // const Setting = lazy(() => import("@/pages/Setting"));
@@ -108,6 +109,10 @@ const routes = [
   {
     path: "/mapping-packages",
     component: MappingPackage,
+  },
+  {
+    path: "/daily-deals",
+    component: DailyDeals,
   },
   {
     path: "/order/:id",
