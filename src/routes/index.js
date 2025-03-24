@@ -9,6 +9,7 @@ const Products = lazy(() => import("@/pages/Products"));
 const ProductDetails = lazy(() => import("@/pages/ProductDetails"));
 const MappingPackage = lazy(() => import("@/pages/MappingPackage"));
 const Category = lazy(() => import("@/pages/Category"));
+const Menus = lazy(() => import("@/pages/Menus"));
 const ChildCategory = lazy(() => import("@/pages/ChildCategory"));
 const Staff = lazy(() => import("@/pages/Staff"));
 const Customers = lazy(() => import("@/pages/Customers"));
@@ -115,6 +116,10 @@ const routes = [
     component: DailyDeals,
   },
   {
+    path: "/menus",
+    component: Menus,
+  },
+  {
     path: "/order/:id",
     component: OrderInvoice,
   },
@@ -160,6 +165,8 @@ const routeAccessList = [
   {label : "Packages", value: "packages"},
   { label: "Categories", value: "categories" },
   { label: "Booking", value: "booking" },
+  { label: "Daily Deals", value: "daily-deals" },
+  { label: "Menus", value: "menus" },
   { label: "Attributes", value: "attributes" },
   { label: "Coupons", value: "coupons" },
   { label: "Customers", value: "customers" },

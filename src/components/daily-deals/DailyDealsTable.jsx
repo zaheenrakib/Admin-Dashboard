@@ -1,12 +1,15 @@
 import { TableBody, TableCell, TableRow } from "@windmill/react-ui";
 import React from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
-import Status from "@/components/table/Status";
 
 const DailyDealsTable = ({ dailyDealsData, isLoading }) => {
-    if(isLoading){
-        return <div>Loading...</div>
-    }
+  const convertToBangladeshTime = (time) => {
+    const date = new Date(time);
+    return date.toLocaleString("en-US", { timeZone: "Asia/Dhaka" });
+  };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <TableBody>
       {dailyDealsData?.map((deal, i) => (
@@ -24,10 +27,14 @@ const DailyDealsTable = ({ dailyDealsData, isLoading }) => {
             <span className="text-sm">{deal.quantity}</span>
           </TableCell>
           <TableCell>
-            <span className="text-sm">{deal.startTime}</span>
+            <span className="text-sm">
+              {convertToBangladeshTime(deal.startTime)}
+            </span>
           </TableCell>
           <TableCell>
-            <span className="text-sm">{deal.endTime}</span>
+            <span className="text-sm">
+              {convertToBangladeshTime(deal.endTime)}
+            </span>
           </TableCell>
           <TableCell>
             <div className="flex justify-center items-center space-x-4">

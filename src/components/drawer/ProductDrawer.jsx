@@ -49,6 +49,7 @@ const ProductDrawer = ({ id }) => {
   } = useForm();
   const [category, isLoading] = useGetDatas("/category/parent", "category");
   const [subcategory] = useGetDatas("/category", "subCategory");
+  const [menus] = useGetDatas("/menus", "menus");
   const { closeDrawer } = useContext(SidebarContext);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -234,6 +235,29 @@ const uploadImage = async () => {
                       {subcategory?.map((cat) => (
                         <option key={cat.id} value={cat.id}>
                           {cat.name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </div>
+              </div>
+
+                //menu section
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Menus")} />
+                <div className="col-span-8 sm:col-span-4">
+                  {isLoading ? (
+                    <p>Loading menus...</p>
+                  ) : (
+                    <select
+                      {...register("menuId", {
+                      })}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="">Select a menus</option>
+                      {menus?.map((menu) => (
+                        <option key={menu.id} value={menu.id}>
+                          {menu?.name}
                         </option>
                       ))}
                     </select>
