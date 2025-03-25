@@ -242,7 +242,6 @@ const uploadImage = async () => {
                 </div>
               </div>
 
-                //menu section
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Menus")} />
                 <div className="col-span-8 sm:col-span-4">
@@ -256,7 +255,7 @@ const uploadImage = async () => {
                     >
                       <option value="">Select a menus</option>
                       {menus?.map((menu) => (
-                        <option key={menu.id} value={menu.id}>
+                        <option key={menu?.id} value={menu?.id}>
                           {menu?.name}
                         </option>
                       ))}
