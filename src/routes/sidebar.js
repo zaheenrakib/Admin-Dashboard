@@ -11,7 +11,8 @@ import {
   FiPackage,
   FiShoppingBag,
   FiMenu,
-  FiCalendar
+  FiCalendar,
+  FiCoffee
 } from "react-icons/fi";
 
 /**
@@ -87,6 +88,12 @@ const sidebar = [
     path: "/daily-deals",
     icon: FiCalendar,
     name: "Daily Deals",
+  },
+
+  {
+    path: "/offer-zone",
+    icon: FiCoffee,
+    name: "Offer Zone",
   },
 
   {
