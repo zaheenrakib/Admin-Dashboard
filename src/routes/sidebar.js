@@ -12,7 +12,9 @@ import {
   FiShoppingBag,
   FiMenu,
   FiCalendar,
-  FiCoffee
+  FiCoffee,
+  FiImage,
+  FiTrendingUp
 } from "react-icons/fi";
 
 /**
@@ -32,6 +34,16 @@ const sidebar = [
     path: "/banners",
     icon: FiShoppingBag,
     name: "Banners",
+  },
+  {
+    path: "/slider-images",
+    icon: FiImage,
+    name: "Slider Images",
+  },
+  {
+    path: '/gallery',
+    icon: FiImage,
+    name: 'Gallery',
   },
   {
     icon: FiSlack,
@@ -94,6 +106,11 @@ const sidebar = [
     path: "/offer-zone",
     icon: FiCoffee,
     name: "Offer Zone",
+  },
+  {
+    path: "/reviews",
+    icon: FiTrendingUp,
+    name: "Review"
   },
 
   {

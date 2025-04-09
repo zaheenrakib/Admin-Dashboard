@@ -105,23 +105,6 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
                 <Badge type="danger">{t("SoldOut")}</Badge>
               )}
             </TableCell>
-            {/* <TableCell>
-              <Link
-                to={`/product/${product?.id}`}
-                className="flex justify-center text-gray-400 hover:text-emerald-600"
-              >
-                <Tooltip
-                  id="view"
-                  Icon={FiZoomIn}
-                  title={t("DetailsTbl")}
-                  bgColor="#10B981"
-                />
-              </Link>
-            </TableCell> */}
-            <TableCell className="text-center">
-              <ShowHideButton id={product?.id} status={product.status} />
-              {/* {product.status} */}
-            </TableCell>
             <TableCell>
               <EditDeleteButton
                 id={product?.id}

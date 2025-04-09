@@ -1,10 +1,9 @@
 import { Button, TableBody, TableCell, TableRow } from "@windmill/react-ui";
-import React, { useEffect, useState } from "react";
 import Switch from "react-switch";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
 import { notifySuccess, notifyError } from "@/utils/toast";
-import { FiDelete, FiTrash2 } from "react-icons/fi";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import {  FiTrash2 } from "react-icons/fi";
+import Swal from "sweetalert2";
 
 const BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
@@ -18,7 +17,7 @@ const BannerTable = ({ data, isLoading }) => {
 
       if (response.status === 200) {
         notifySuccess("Status updated successfully!");
-        window.location.reload(); // Reload full page
+        window.location.reload(); 
       } else {
         notifyError("Failed to update status.");
       }

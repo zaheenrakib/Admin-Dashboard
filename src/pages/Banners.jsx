@@ -39,6 +39,7 @@ const Banners = () => {
                   <TableCell>{"Image_Thumb"}</TableCell>
                   <TableCell>{"Status"}</TableCell>
                   <TableCell>{"Action"}</TableCell>
+                  <TableCell>{"Delete"}</TableCell>
                 </tr>
             </TableHeader>
             <BannerTable data={data} isLoading={isLoading} refetch={refetch} />

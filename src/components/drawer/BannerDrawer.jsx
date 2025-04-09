@@ -38,43 +38,22 @@ const BannerDrawer = () => {
     }
   };
 
-  // ✅ Upload Image Function
-  const uploadImage = async () => {
-    if (!file) {
-      setMessage("Please select an image.");
-      return null;
-    }
-
-    const formData = new FormData();
-    formData.append("image", file);
-
-    try {
-      const res = await axiosPublic.post(`/images/upload`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      return res.data.imageUrl;
-    } catch (error) {
-      console.error("Image upload failed:", error);
-      setMessage("Image upload failed.");
-      return null;
-    }
-  };
-
+ 
   // ✅ Submit Form
   const onSubmit = async (data) => {
-    const uploadedImageUrl = await uploadImage();
-    if (!uploadedImageUrl) return;
-
-    const bannerData = {
-      title: data.title,
-      description: data.description,
-      image: uploadedImageUrl,
-      image_thumb: uploadedImageUrl,
-      status: data.status,
-    };
-
     try {
-      const res = await axiosPublic.post("/banners/add", bannerData);
+      const formData = new FormData();
+      for (const key in data) {
+        if (key === "image") {
+          formData.append("image", data.image[0]);
+        } else {
+          formData.append(key, data[key]);
+        }
+      }
+
+      const res = await axiosPublic.post("/banners/add?type=banners", formData ,{
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       if (res.status === 201) {
         notifySuccess("Banner created successfully.");
         reset();
@@ -132,6 +111,7 @@ const BannerDrawer = () => {
               <LabelArea label="Images" />
               <div className="col-span-6 sm:col-span-4">
                 <input
+                  {...register("image", { required: true })}
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
