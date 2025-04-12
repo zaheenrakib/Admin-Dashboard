@@ -221,10 +221,6 @@ const Products = () => {
                 <TableCell>Sale Price</TableCell>
                 <TableCell>{t("QuntityTbl")}</TableCell>
                 <TableCell>{t("StatusTbl")}</TableCell>
-                {/* <TableCell className="text-center">{t("DetailsTbl")}</TableCell> */}
-                <TableCell className="text-center">
-                  {t("PublishedTbl")}
-                </TableCell>
                 <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
               </tr>
             </TableHeader>

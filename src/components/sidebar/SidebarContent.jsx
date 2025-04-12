@@ -75,7 +75,7 @@ const SidebarContent = () => {
                   ></span>
                 </Route>
                 <route.icon className="w-5 h-5" aria-hidden="true" />
-                <span className="ml-4">{t(`${route.name}`)}</span>
+                <span className="ml-4">{t(`${route?.name}`)}</span>
               </NavLink>
             </li>
           )

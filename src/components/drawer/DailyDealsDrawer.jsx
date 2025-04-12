@@ -15,7 +15,6 @@ const DailyDealsDrawer = () => {
   const {
     handleSubmit,
     register,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm();
 
@@ -26,6 +25,7 @@ const DailyDealsDrawer = () => {
       if (response.status === 200 || response.status === 201) {
         notifySuccess("Daily Deal Added Successfully!");
         closeDrawer();
+        window.location.reload();
       }
     } catch (error) {
       notifyError(error.message || "Something went wrong!");

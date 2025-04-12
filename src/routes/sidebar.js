@@ -15,7 +15,9 @@ import {
   FiCoffee,
   FiImage,
   FiTrendingUp,
-  FiBook
+  FiBook,
+  FiWatch,
+  FiNavigation
 } from "react-icons/fi";
 
 /**
@@ -118,7 +120,11 @@ const sidebar = [
     icon: FiTrendingUp,
     name: "Review"
   },
-
+  {
+    path: '/testimonials',
+    icon: FiNavigation,
+    name: 'Testimonials',
+  },
   {
     path: "/menus",
     icon: FiMenu,

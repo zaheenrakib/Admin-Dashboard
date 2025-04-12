@@ -1,6 +1,4 @@
 import { lazy } from "react";
-import { HashRouter as Router }  from "react-router-dom"; 
-
 // use lazy for better code splitting
 const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const Banners = lazy(() => import("@/pages/Banners"));
@@ -25,6 +23,7 @@ const Packages = lazy(() => import("@/pages/Packages"));
 const DailyDeals = lazy(() => import("@/pages/DailyDeals"));
 const OrderInvoice = lazy(() => import("@/pages/OrderInvoice"));
 const Review = lazy(() => import("@/pages/Review"));
+const Testimonials = lazy(() => import("@/pages/Testimonials"));
 const Coupons = lazy(() => import("@/pages/Coupons"));
 // const Setting = lazy(() => import("@/pages/Setting"));
 const Page404 = lazy(() => import("@/pages/404"));
@@ -132,6 +131,10 @@ const routes = [
     component: Review,
   },
   {
+    path: "/testimonials",
+    component: Testimonials,
+  },
+  {
     path: "/menus",
     component: Menus,
   },
@@ -186,6 +189,7 @@ const routeAccessList = [
   { label: "Daily Deals", value: "daily-deals" },
   { label: "Offer Zone", value: "offer-zone" },
   { label: "Review" , value: "review"},
+  { label: "Testimonials", value: "testimonials" },
   { label: "Menus", value: "menus" },
   { label: "Attributes", value: "attributes" },
   { label: "Coupons", value: "coupons" },
