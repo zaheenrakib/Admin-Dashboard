@@ -4,6 +4,7 @@ import { HashRouter as Router }  from "react-router-dom";
 // use lazy for better code splitting
 const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const Banners = lazy(() => import("@/pages/Banners"));
+const AboutUs = lazy(() => import("@/pages/AboutUs"));
 const Gallery = lazy(() => import("@/pages/Gallery"))
 const SliderImages = lazy(() => import("@/pages/SliderImages"));
 const Attributes = lazy(() => import("@/pages/Attributes"));
@@ -44,6 +45,10 @@ const routes = [
   {
     path: "/banners",
     component: Banners,
+  },
+  {
+    path: "/about-us",
+    component: AboutUs,
   },
   {
     path: "/gallery",

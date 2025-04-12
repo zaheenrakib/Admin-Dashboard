@@ -11,7 +11,7 @@ import { FiPlus } from "react-icons/fi";
 
 const Banners = () => {
   const [data, isLoading, refetch] = useGetDatas("/banners/getall", "allbanners");
-  const { toggleDrawer, lang } = useContext(SidebarContext);
+  const { toggleDrawer } = useContext(SidebarContext);
   return (
     <>
       <PageTitle>{"Banner List"}</PageTitle>

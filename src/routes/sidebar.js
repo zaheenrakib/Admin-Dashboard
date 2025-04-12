@@ -14,7 +14,8 @@ import {
   FiCalendar,
   FiCoffee,
   FiImage,
-  FiTrendingUp
+  FiTrendingUp,
+  FiBook
 } from "react-icons/fi";
 
 /**
@@ -44,6 +45,11 @@ const sidebar = [
     path: '/gallery',
     icon: FiImage,
     name: 'Gallery',
+  },
+  {
+    path: "/about-us",
+    icon: FiBook,
+    name: "AboutUS",
   },
   {
     icon: FiSlack,
